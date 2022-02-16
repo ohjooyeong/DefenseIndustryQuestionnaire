@@ -1,13 +1,19 @@
-import React from "react";
-import styles from "./start.module.css";
+import React, { useCallback, useState } from "react";
+import ProfileSection from "./section/ProfileSection";
+import StartSection from "./section/StartSection";
 
 function Start() {
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.section}></div>
-      <div className={styles.img_section}></div>
-    </div>
-  );
+  const [StartBtn, setStartBtn] = useState(false);
+
+  const handleNext = useCallback(() => {
+    setStartBtn(true);
+  }, []);
+
+  if (StartBtn) {
+    return <ProfileSection />;
+  }
+
+  return <StartSection handleNext={handleNext} />;
 }
 
 export default Start;
