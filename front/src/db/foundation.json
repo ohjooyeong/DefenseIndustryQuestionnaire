@@ -17,7 +17,7 @@
       ],
       "category_id": "c_1",
       "type": "A",
-      "next": false,
+      "next": true,
       "score": 0,
       "unit": "",
       "child_yes": "",

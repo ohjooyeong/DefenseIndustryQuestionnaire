@@ -6,14 +6,12 @@ import foundationDb from "../../db/foundation.json";
 import TypeB from "../../components/Question/typeB";
 
 function Foundation() {
-  const [Data, setData] = useState({});
+  const [Data, setData] = useState(null);
   const [answerList, setAnswerList] = useState([]);
 
   useEffect(() => {
     setData(foundationDb);
   }, []);
-
-  console.log(Data);
 
   return (
     <div className={styles.container}>
@@ -21,12 +19,30 @@ function Foundation() {
         <div className={styles.top}>
           <Progress_1 />
         </div>
-        <TypeB
+        {/* <TypeB
           category={"기업 기본 개요"}
           content={"2. 기업의 아이템을 간략하게 소개해주세요."}
           prev={true}
           next={true}
-        />
+        /> */}
+        <TypeA
+          category={"기업 기본 개요"}
+          content={"1. 소속된 국방벤처센터는 어디인가요?"}
+          answer_list={[
+            "충북",
+            "충남",
+            "대전",
+            "전북",
+            "전남",
+            "광주",
+            "경남",
+            "울산",
+            "구미",
+            "부산",
+          ]}
+          data={Data && Data.question[0]}
+          next={true}
+        ></TypeA>
       </div>
     </div>
   );
