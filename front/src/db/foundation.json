@@ -1,0 +1,186 @@
+{
+  "question": [
+    {
+      "pk": "f-1",
+      "content": "1. 소속된 국방벤처센터는 어디인가요?",
+      "answer": [
+        "충북",
+        "충남",
+        "대전",
+        "전북",
+        "전남",
+        "광주",
+        "경남",
+        "울산",
+        "구미",
+        "부산"
+      ],
+      "category_id": "c_1",
+      "type": "A",
+      "next": false,
+      "score": 0,
+      "unit": "",
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-2",
+      "content": "2. 기업의 아이템을 간략하게 소개해주세요.",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "",
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-3",
+      "content": "3. 해당되는 항목에 모두 선택해 주세요.",
+      "answer": [
+        "공장등록",
+        "기업부설연구소",
+        "국방벤처기업",
+        "벤처기업",
+        "이노비즈",
+        "직접생산확인 증명서",
+        "중소기업(소기업) 확인서"
+      ],
+      "category_id": "c_1",
+      "type": "C",
+      "next": true,
+      "score": 0,
+      "unit": "",
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-4",
+      "content": "4. 관련 지적재산권 확보가 되어있나요?",
+      "answer": ["네, 확보되어있습니다", "아니요, 확보되어있지않습니다"],
+      "category_id": "c_1",
+      "type": "D",
+      "next": true,
+      "score": [0, 0],
+      "unit": "",
+      "child_yes": "f-4-1",
+      "child_no": "f-5"
+    },
+    {
+      "pk": "f-4-1",
+      "content": "4-1. 출원중인 특허를 포함하여 확보한<br/> 지적재산권은 몇 건인가요.",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "건",
+      "number": true,
+      "child_yes": "f-5",
+      "child_no": ""
+    },
+    {
+      "pk": "f-5",
+      "content": "5. 국방분야 사업의 참여 기간은 얼마나 되시나요?",
+      "answer": [
+        "1년 미만",
+        "1년 이상 3년 미만",
+        "3년 이상 5년 미만",
+        "5년 이상 7년 미만",
+        "7년 이상"
+      ],
+      "category_id": "c_1",
+      "type": "C",
+      "next": false,
+      "score": 0,
+      "unit": "",
+      "number": false,
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-6",
+      "content": "6. 기업의 매출액은 어느 정도 되시나요? (원)",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "원",
+      "number": true,
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-6-1",
+      "content": "6-1. 전체 매출액 중 국방분야 비중은 얼마인가요? (%)",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "%",
+      "number": true,
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-7",
+      "content": "7. 기업 설립일은 언제인가요?",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "",
+      "number": true,
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-8",
+      "content": "8. 현재 참여 중인 소속 체계기업은 어디십니까?",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "B",
+      "next": true,
+      "score": 0,
+      "unit": "",
+      "number": false,
+      "child_yes": "",
+      "child_no": ""
+    },
+    {
+      "pk": "f-9",
+      "content": "9. 자사 제품(기술)의 국방 분류는 어떻게 되십니까?",
+      "answer": "",
+      "category_id": "c_1",
+      "type": "C",
+      "next": false,
+      "score": 0,
+      "unit": "",
+      "number": false,
+      "child_yes": "",
+      "child_no": ""
+    }
+  ],
+  "category": [
+    {
+      "pk": "c_1",
+      "name": "기업 기본 개요"
+    },
+    {
+      "pk": "c_2",
+      "name": "군사업 적합성"
+    },
+    {
+      "pk": "c_3",
+      "name": "솔루션 적합성"
+    },
+    {
+      "pk": "c_4",
+      "name": "기타"
+    }
+  ]
+}

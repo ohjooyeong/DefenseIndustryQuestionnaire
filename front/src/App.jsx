@@ -3,6 +3,9 @@ import Start from "./pages/start";
 import { RecoilRoot } from "recoil";
 import "./styles/App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Foundation from "./pages/foundation";
+import Question from "./pages/question";
+import Result from "./pages/result";
 
 const theme = createTheme({
   typography: {
@@ -21,6 +24,9 @@ function App() {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<Start />} />
+            <Route path="/foundation" element={<Foundation />} />
+            <Route path="/question" element={<Question />} />
+            <Route path="/result" element={<Result />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>

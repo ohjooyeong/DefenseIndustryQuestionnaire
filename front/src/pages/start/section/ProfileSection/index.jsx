@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import styles from "./profile.module.css";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { debounce } from "lodash";
 

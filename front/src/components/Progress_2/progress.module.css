@@ -1,0 +1,69 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 484px;
+  height: 100%;
+}
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 16px;
+  line-height: 25px;
+  text-align: center;
+  letter-spacing: -0.0025em;
+  color: #888888;
+  margin-top: 12px;
+}
+
+.step span {
+  padding: 0 8px;
+}
+
+.sky {
+  font-weight: bold;
+  color: #005dc9;
+}
+
+.b {
+  color: #212121;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  position: relative;
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 182px;
+  height: 2px;
+  background-color: #e5e5e5;
+}
+
+.divider_b {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 182px;
+  height: 2px;
+  background-color: #616161;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
