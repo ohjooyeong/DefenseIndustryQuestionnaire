@@ -4,6 +4,7 @@ import TypeA from "../../components/Question/typeA";
 import styles from "./foundation.module.css";
 import foundationDb from "../../db/foundation.json";
 import TypeB from "../../components/Question/typeB";
+import TypeC from "../../components/Question/typeC";
 
 function Foundation() {
   const [Data, setData] = useState(null);
@@ -25,7 +26,7 @@ function Foundation() {
           prev={true}
           next={true}
         /> */}
-        <TypeA
+        {/* <TypeA
           category={"기업 기본 개요"}
           content={"1. 소속된 국방벤처센터는 어디인가요?"}
           answer_list={[
@@ -42,7 +43,12 @@ function Foundation() {
           ]}
           data={Data && Data.question[0]}
           next={true}
-        ></TypeA>
+        ></TypeA> */}
+        <TypeC
+          data={Data && Data.question[2]}
+          category={"기업 기본 개요"}
+          prev={true}
+        />
       </div>
     </div>
   );
