@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Foundation from "./pages/foundation";
 import Question from "./pages/question";
 import Result from "./pages/result";
+import Company from "./pages/result/company";
 
 const theme = createTheme({
   typography: {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/foundation" element={<Foundation />} />
             <Route path="/question" element={<Question />} />
             <Route path="/result" element={<Result />} />
+            <Route path="/result/:company" element={<Company />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>

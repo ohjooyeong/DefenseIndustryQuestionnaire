@@ -1,24 +1,15 @@
 .container {
-  width: 100%;
-  height: 100vh;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .wrapper {
-  width: 585px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.top {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 100px;
+  margin: 120px 0;
 }
