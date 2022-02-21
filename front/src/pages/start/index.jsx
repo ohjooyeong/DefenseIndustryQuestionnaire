@@ -6,6 +6,7 @@ function Start() {
   const [StartBtn, setStartBtn] = useState(false);
 
   const handleNext = useCallback(() => {
+    localStorage.removeItem("profile");
     setStartBtn(true);
   }, []);
 

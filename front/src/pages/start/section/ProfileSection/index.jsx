@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { debounce } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as CheckIcon } from "../../../../image/check.svg";
 import { ReactComponent as CheckedIcon } from "../../../../image/checked.svg";
@@ -20,6 +21,8 @@ function ProfileSection() {
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(false);
   const [activeBtn, setActiveBtn] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange1 = (event) => {
     setChecked([event.target.checked, event.target.checked]);
@@ -49,7 +52,6 @@ function ProfileSection() {
   }, []);
 
   const EmailValidCheck = useCallback((value) => {
-    console.log(value);
     if (!isEmail(value)) {
       setEmailValid(true);
     } else {
@@ -58,7 +60,6 @@ function ProfileSection() {
     if (value === "") {
       setEmailValid(false);
     }
-    console.log(emailValid);
   }, []);
 
   const debounceSomethingFunc = debounce((value) => {
@@ -75,6 +76,22 @@ function ProfileSection() {
 
     debounceSomethingFunc(value);
   }, []);
+
+  const handleSubmitProfile = useCallback(
+    (e) => {
+      e.preventDefault();
+      localStorage["profile"] = JSON.stringify({
+        orgName,
+        name,
+        phoneNum,
+        email,
+        checked,
+      });
+
+      navigate("../foundation");
+    },
+    [orgName, name, phoneNum, email, checked]
+  );
 
   useEffect(() => {
     if (
@@ -97,121 +114,123 @@ function ProfileSection() {
         <div className={styles.top}>
           <div className={styles.title}>아래의 정보를 입력해주세요</div>
         </div>
-        <div className={styles.body}>
-          <div className={styles.field_wrap}>
-            <BpTextField
-              id="standard-textarea"
-              label="회사명"
-              multiline
-              variant="standard"
-              fullWidth
-              value={orgName}
-              onChange={onChangeOrgName}
-            />
+        <form onSubmit={handleSubmitProfile}>
+          <div className={styles.body}>
+            <div className={styles.field_wrap}>
+              <BpTextField
+                id="standard-textarea"
+                label="회사명"
+                multiline
+                variant="standard"
+                fullWidth
+                value={orgName}
+                onChange={onChangeOrgName}
+              />
+            </div>
+            <div className={styles.field_wrap}>
+              <BpTextField
+                id="standard-textarea"
+                label="담당자 성함"
+                multiline
+                variant="standard"
+                fullWidth
+                value={name}
+                onChange={onChangeName}
+              />
+            </div>
+            <div className={styles.field_wrap}>
+              <BpTextField
+                id="standard-textarea"
+                label="휴대폰번호 (-빼고 숫자만 입력해주세요)"
+                multiline
+                variant="standard"
+                fullWidth
+                value={phoneNum}
+                onChange={onChangePhoneNum}
+              />
+            </div>
+            <div className={styles.field_wrap}>
+              <BpTextField
+                id="standard-textarea"
+                label="이메일"
+                multiline
+                variant="standard"
+                fullWidth
+                value={email}
+                onChange={onChangeEmail}
+                helperText={
+                  emailValid && (
+                    <>
+                      <Alert></Alert>
+                      <span style={{ marginLeft: "4px" }}>
+                        잘못된 형식의 이메일입니다
+                      </span>
+                    </>
+                  )
+                }
+              />
+            </div>
           </div>
-          <div className={styles.field_wrap}>
-            <BpTextField
-              id="standard-textarea"
-              label="담당자 성함"
-              multiline
-              variant="standard"
-              fullWidth
-              value={name}
-              onChange={onChangeName}
-            />
-          </div>
-          <div className={styles.field_wrap}>
-            <BpTextField
-              id="standard-textarea"
-              label="휴대폰번호 (-빼고 숫자만 입력해주세요)"
-              multiline
-              variant="standard"
-              fullWidth
-              value={phoneNum}
-              onChange={onChangePhoneNum}
-            />
-          </div>
-          <div className={styles.field_wrap}>
-            <BpTextField
-              id="standard-textarea"
-              label="이메일"
-              multiline
-              variant="standard"
-              fullWidth
-              value={email}
-              onChange={onChangeEmail}
-              helperText={
-                emailValid && (
+          <div className={styles.footer}>
+            <div className={styles.check_wrap}>
+              <BpFormControlLabel
+                label={
                   <>
-                    <Alert></Alert>
-                    <span style={{ marginLeft: "4px" }}>
-                      잘못된 형식의 이메일입니다
-                    </span>
+                    <span className={styles.b}>모두 동의</span>
                   </>
-                )
-              }
-            />
+                }
+                control={
+                  <Checkbox
+                    checked={checked[0] && checked[1]}
+                    onChange={handleChange1}
+                    checkedIcon={<CheckedIcon />}
+                    icon={<CheckIcon />}
+                  />
+                }
+              />
+            </div>
+            <div className={styles.check_wrap}>
+              <BpFormControlLabel
+                label={
+                  <>
+                    <span>개인정보 수집 및 이용에 관한 동의 (필수)</span>
+                  </>
+                }
+                control={
+                  <Checkbox
+                    checked={checked[0]}
+                    onChange={handleChange2}
+                    checkedIcon={<CheckedIcon />}
+                    icon={<CheckIcon />}
+                  />
+                }
+              />
+              <span className={styles.sky}>보기</span>
+            </div>
+            <div className={styles.check_wrap}>
+              <BpFormControlLabel
+                label={
+                  <>
+                    <span>정보 수신에 관한 동의(선택)</span>
+                  </>
+                }
+                control={
+                  <Checkbox
+                    checked={checked[1]}
+                    onChange={handleChange3}
+                    checkedIcon={<CheckedIcon />}
+                    icon={<CheckIcon />}
+                  />
+                }
+              />
+              <span className={styles.sky}>보기</span>
+            </div>
           </div>
-        </div>
-        <div className={styles.footer}>
-          <div className={styles.check_wrap}>
-            <BpFormControlLabel
-              label={
-                <>
-                  <span className={styles.b}>모두 동의</span>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={checked[0] && checked[1]}
-                  onChange={handleChange1}
-                  checkedIcon={<CheckedIcon />}
-                  icon={<CheckIcon />}
-                />
-              }
-            />
-          </div>
-          <div className={styles.check_wrap}>
-            <BpFormControlLabel
-              label={
-                <>
-                  <span>개인정보 수집 및 이용에 관한 동의 (필수)</span>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={checked[0]}
-                  onChange={handleChange2}
-                  checkedIcon={<CheckedIcon />}
-                  icon={<CheckIcon />}
-                />
-              }
-            />
-            <span className={styles.sky}>보기</span>
-          </div>
-          <div className={styles.check_wrap}>
-            <BpFormControlLabel
-              label={
-                <>
-                  <span>정보 수신에 관한 동의(선택)</span>
-                </>
-              }
-              control={
-                <Checkbox
-                  checked={checked[1]}
-                  onChange={handleChange3}
-                  checkedIcon={<CheckedIcon />}
-                  icon={<CheckIcon />}
-                />
-              }
-            />
-            <span className={styles.sky}>보기</span>
-          </div>
-        </div>
 
-        <button className={styles.button} disabled={!activeBtn}>
-          진단 시작하기
-        </button>
+          <button className={styles.button} disabled={!activeBtn}>
+            진단 시작하기
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 .wrapper {
-  width: 100%;
+  width: 585px;
 }
 
 .category {
@@ -38,6 +38,7 @@
   outline: none;
   color: #212121;
   padding: 0 4px;
+  z-index: 1;
 }
 
 .text_input::placeholder {
