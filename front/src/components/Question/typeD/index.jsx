@@ -14,22 +14,46 @@ function TypeD({
   answerList,
   pkList,
   setPkList,
+  scoreData,
+  setScoreData,
 }) {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
   const handleClickAnswer = useCallback(
     (id, i) => {
-      if (i === 0) {
-        setAnswer(id);
-        setCurPk(data.child_yes);
-      } else {
-        setAnswer(id);
-        setCurPk(data.child_no);
-      }
-      setAnswerList(answerList.concat(answer));
+      const answerContext = { id: data.pk, answer: id };
+      const scoreContext = { id: data.pk, score: data.score[i] };
+
+      const filterAnswer = answerList.filter((item) => item.id !== data.pk);
+      const filterPkList = pkList.filter((item) => item !== data.pk);
+      const filterScoreData = scoreData.filter((item) => item.id !== data.pk);
+      setAnswer(id);
+      setTimeout(() => {
+        if (i === 0) {
+          setCurPk(data.child_yes);
+        } else {
+          setCurPk(data.child_no);
+        }
+      }, 200);
+
+      setScoreData(filterScoreData.concat(scoreContext));
+      setAnswerList(filterAnswer.concat(answerContext));
+      setPkList(filterPkList.concat(data.pk));
     },
-    [answer]
+    [answer, pkList, scoreData]
   );
+
+  const handlePrev = useCallback(() => {
+    const filterAnswer = answerList.filter((item) => item.id !== data.pk);
+    const filterPkList = pkList.filter((item) => item !== data.pk);
+    const filterScoreData = scoreData.filter((item) => item.id !== data.pk);
+    setAnswer("");
+
+    setCurPk(filterPkList[filterPkList.length - 1]);
+    setAnswerList(filterAnswer);
+    setPkList(filterPkList);
+    setScoreData(filterScoreData);
+  }, [answerList, pkList, scoreData]);
 
   return (
     <>
@@ -44,10 +68,10 @@ function TypeD({
             {data.answer.map((q, i) => (
               <div key={q + i}>
                 <ChipInput
-                  type="radio"
+                  type="checkbox"
                   id={`${data.pk}_${i}`}
                   checked={answer === `${data.pk}_${i}`}
-                  onChange={() => handleClickAnswer(`${data.pk}_${i}`)}
+                  onChange={() => handleClickAnswer(`${data.pk}_${i}`, i)}
                 />
                 <ChipLabel
                   htmlFor={`${data.pk}_${i}`}
@@ -60,7 +84,9 @@ function TypeD({
           </div>
           <div className={styles.button_wrap}>
             {data.prev ? (
-              <button className={styles.prev_btn}>이전</button>
+              <button className={styles.prev_btn} onClick={handlePrev}>
+                이전
+              </button>
             ) : (
               <div></div>
             )}

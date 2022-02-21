@@ -1,11 +1,24 @@
 .container {
   width: 100%;
-  height: 100vh;
   position: relative;
-}
-
-.wrapper {
+  margin-top: 242px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.wrapper {
+  width: 585px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.top {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
 }

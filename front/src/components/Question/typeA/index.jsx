@@ -36,8 +36,18 @@ function TypeA({
     setPkList(filterPkList.concat(data.pk));
   }, [answer, pkList]);
 
+  const handleSubmit = useCallback(() => {
+    const answerContext = { id: data.pk, answer: answer };
+    const answerLast = answerList.concat(answerContext);
+    localStorage["foundation"] = JSON.stringify(answerLast);
+
+    navigate("../question");
+  }, [answer]);
+
   const handlePrev = useCallback(() => {
-    setCurPk(pkList[pkList.length - 1]);
+    const filterPkList = pkList.filter((item) => item !== data.pk);
+
+    setCurPk(filterPkList[filterPkList.length - 1]);
     setPkList(pkList.filter((pk) => pk !== data.pk));
   }, [pkList]);
 
@@ -80,7 +90,7 @@ function TypeA({
               <button
                 className={styles.next_btn}
                 disabled={!answer}
-                onClick={handleNext}
+                onClick={data.last ? handleSubmit : handleNext}
               >
                 다음
               </button>

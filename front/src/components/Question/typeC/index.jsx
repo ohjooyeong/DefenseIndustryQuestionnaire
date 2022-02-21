@@ -40,9 +40,13 @@ function TypeC({
   }, [answer, pkList]);
 
   const handlePrev = useCallback(() => {
-    setCurPk(pkList[pkList.length - 1]);
+    const filterPkList = pkList.filter((item) => item !== data.pk);
+    const filterAnswer = answerList.filter((item) => item.id !== data.pk);
+
+    setAnswerList(filterAnswer);
+    setCurPk(filterPkList[filterPkList.length - 1]);
     setPkList(pkList.filter((pk) => pk !== data.pk));
-  }, [pkList]);
+  }, [pkList, answerList]);
 
   return (
     <>

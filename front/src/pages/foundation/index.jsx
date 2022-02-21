@@ -92,8 +92,6 @@ function Foundation() {
     }
   }, []);
 
-  console.log(answerList, pkList);
-
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>

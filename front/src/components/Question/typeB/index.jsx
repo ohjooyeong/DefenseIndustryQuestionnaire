@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { emojiSlice, spaceSlice } from "../../../utils/inputCheck";
 import styles from "./type.module.css";
 
@@ -10,10 +11,12 @@ function TypeB({
   answerList,
   pkList,
   setPkList,
+  scoreData,
 }) {
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
   const [activeBtn, setActiveBtn] = useState(false);
+  const navigate = useNavigate();
 
   const handleOnFocus = useCallback(() => {
     setFocused(true);
@@ -35,6 +38,18 @@ function TypeB({
     return comma(uncomma(str));
   }, []);
 
+  const inputDateFormat = useCallback((str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d\d\d\d)(\d\d)(\d\d)/g, "$1.$2.$3");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
+  }, []);
+
   const onChangeText = useCallback((e) => {
     let value = e.target.value;
     value = emojiSlice(value);
@@ -44,6 +59,11 @@ function TypeB({
     }
     if (data.unit === "원") {
       value = inputPriceFormat(value);
+    }
+
+    if (data.date) {
+      value = inputDateFormat(value);
+      value = value.slice(0, 10);
     }
 
     if (value) {
@@ -58,15 +78,32 @@ function TypeB({
     const answerContext = { id: data.pk, answer: text };
     const filterAnswer = answerList.filter((item) => item.id !== data.pk);
     const filterPkList = pkList.filter((item) => item !== data.pk);
-    setCurPk(data.child_yes);
     setAnswerList(filterAnswer.concat(answerContext));
     setPkList(filterPkList.concat(data.pk));
+    if (data.last && data.child_yes === "result") {
+      return navigate("../result");
+    }
+    setCurPk(data.child_yes);
   }, [text, pkList]);
 
+  const handleSubmit = useCallback(() => {
+    const answerContext = { id: data.pk, answer: text };
+    const answerLast = answerList.concat(answerContext);
+    localStorage["question"] = JSON.stringify(answerLast);
+    localStorage["score"] = JSON.stringify(scoreData);
+
+    navigate("../result");
+  }, [text]);
+
   const handlePrev = useCallback(() => {
-    setCurPk(pkList[pkList.length - 1]);
-    setPkList(pkList.filter((pk) => pk !== data.pk));
-  }, [pkList]);
+    const filterAnswer = answerList.filter((item) => item.id !== data.pk);
+    const filterPkList = pkList.filter((item) => item !== data.pk);
+    setText("");
+
+    setCurPk(filterPkList[filterPkList.length - 1]);
+    setAnswerList(filterAnswer);
+    setPkList(filterPkList);
+  }, [pkList, answerList]);
 
   return (
     <div className={styles.wrapper}>
@@ -83,6 +120,8 @@ function TypeB({
               placeholder={
                 focused
                   ? ""
+                  : data.date
+                  ? "숫자를 입력해주세요. 예) 20100101"
                   : data.number
                   ? "숫자만 입력해주세요."
                   : "입력해주세요."
@@ -113,7 +152,7 @@ function TypeB({
               <button
                 className={styles.next_btn}
                 disabled={!activeBtn}
-                onClick={handleNext}
+                onClick={data.last ? handleSubmit : handleNext}
               >
                 다음
               </button>
