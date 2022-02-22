@@ -55,6 +55,6 @@ const foundationSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const foundationSchema = mongoose.model("Foundation", foundationSchema);
+const Foundation = mongoose.model("Foundation", foundationSchema);
 
-export default foundationSchema;
+export default Foundation;

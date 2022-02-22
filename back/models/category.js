@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const categorySchema = mongoose.Schema(
   {
     name: {
-      type: string,
+      type: String,
     },
   },
   { timestamps: true }
 );
 
-const categorySchema = mongoose.model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
-export default categorySchema;
+export default Category;

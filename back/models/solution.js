@@ -14,6 +14,6 @@ const solutionSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const solutionSchema = mongoose.model("Solution", solutionSchema);
+const Solution = mongoose.model("Solution", solutionSchema);
 
-export default solutionSchema;
+export default Solution;

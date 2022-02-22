@@ -17,6 +17,6 @@ const supportSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const supportSchema = mongoose.model("Support", supportSchema);
+const Support = mongoose.model("Support", supportSchema);
 
-export default supportSchema;
+export default Support;

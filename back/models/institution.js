@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const schema = mongoose.Schema;
 
-const companySchema = mongoose.Schema(
+const institutionSchema = mongoose.Schema(
   {
     name: {
       type: String,
     },
     city: {
-      type: Number,
+      type: String,
     },
     company: {
       type: [{ type: schema.Types.ObjectId, ref: "Company" }],
@@ -17,6 +17,6 @@ const companySchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const companySchema = mongoose.model("Institution", companySchema);
+const Institution = mongoose.model("Institution", institutionSchema);
 
-export default companySchema;
+export default Institution;

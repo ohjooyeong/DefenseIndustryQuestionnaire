@@ -23,6 +23,6 @@ const resultSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const resultSchema = mongoose.model("Result", resultSchema);
+const Result = mongoose.model("Result", resultSchema);
 
-export default resultSchema;
+export default Result;

@@ -46,6 +46,6 @@ const questionSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const questionSchema = mongoose.model("Question", questionSchema);
+const Question = mongoose.model("Question", questionSchema);
 
-export default questionSchema;
+export default Question;
