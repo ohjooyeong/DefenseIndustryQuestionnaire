@@ -5,10 +5,12 @@ import { ReactComponent as CheckResult } from "../../image/check_result.svg";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import { useState } from "react";
+import axios from "axios";
 
 function Result() {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(true);
+  const [resultData, setResultData] = useState(null);
 
   useEffect(() => {
     if (
@@ -19,14 +21,42 @@ function Result() {
     ) {
       return navigate("../");
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+
+    (async () => {
+      try {
+        const company = JSON.parse(localStorage.getItem("profile"));
+        const score = JSON.parse(localStorage.getItem("score"));
+        const question = JSON.parse(localStorage.getItem("question"));
+        const foundation = JSON.parse(localStorage.getItem("foundation"));
+        const context = {
+          company,
+          score,
+          question,
+          foundation,
+        };
+        const { data } = await axios.post(`/api/v1/question/result`, context);
+        setResultData(data.data);
+
+        localStorage["result"] = JSON.stringify(data.data);
+      } catch (error) {
+        console.dir(error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1600);
+      }
+    })();
   }, []);
 
   const handleReport = useCallback(() => {
-    const profile = JSON.parse(localStorage.getItem("profile"));
-    navigate(`../result/${profile.orgName}`);
+    const profile = JSON.parse(localStorage.getItem("result"));
+    if (profile) {
+      localStorage.removeItem("profile");
+      localStorage.removeItem("score");
+      localStorage.removeItem("question");
+      localStorage.removeItem("foundation");
+      navigate(`../result/${profile.company}`);
+    }
   }, []);
 
   return (

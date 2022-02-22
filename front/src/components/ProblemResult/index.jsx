@@ -1,22 +1,21 @@
 import styled from "@emotion/styled";
 import React from "react";
 
-function ProblemResult() {
+function ProblemResult({ data }) {
   return (
     <Container>
       <ResultTitle>진단결과</ResultTitle>
       <ResultWrapper>
-        <h3>[군사업 아이디어]</h3>
-        <div>국방사업의 특수성 및 군 체계 프로세스에 대한 이해 증진 단계</div>
+        <h3>[{data.name}]</h3>
+        <div>{data.summary} 단계</div>
       </ResultWrapper>
       <ResultTitle>문제점</ResultTitle>
       <ProblemList>
-        <li>1. 국방시장의 이해 부족</li>
-        <li>2. 군 사업 진출 프로세스 이해</li>
-        <li>3. 경쟁력 검토 필요</li>
-        <li>4. 사업화 가능 여부 확인 필요 (아이템 접목 분야 확인)</li>
-        <li>5. 국방사업의 자료/정보 수집</li>
-        <li>6. 사업화 문의처 필요</li>
+        {data.problem.map((p, i) => (
+          <li key={p + i}>
+            {i + 1}. {p}
+          </li>
+        ))}
       </ProblemList>
     </Container>
   );
@@ -27,6 +26,7 @@ export default ProblemResult;
 const Container = styled("div")`
   width: 995px;
   padding: 40px 102px;
+  padding-right: 30px;
   display: grid;
   grid-template-columns: 135px auto;
   gap: 40px;

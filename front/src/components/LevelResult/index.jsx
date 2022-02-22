@@ -2,25 +2,22 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React from "react";
 
-function LevelResult({ level }) {
+function LevelResult({ data }) {
   return (
     <Container>
       <LevelRibbon>
-        <img src={`/image/level/level_${level}.png`} alt="" />
+        <img src={`/image/level/level_${data.level}.png`} alt="" />
       </LevelRibbon>
       <LevelHelmet>
-        <img src={`/image/helmet/level_${level}.png`} alt="" />
+        <img src={`/image/helmet/level_${data.level}.png`} alt="" />
       </LevelHelmet>
       <LevelTitle>
-        당신은 <b>군사업 아이디어 단계</b>시군요
+        당신은 <b>{data.name} 단계</b>시군요
       </LevelTitle>
-      <LevelDesc>
-        국방사업의 특수성 및 군체계 프로세스에 대한 이해 증진이 필요한 단계
-        입니다
-      </LevelDesc>
+      <LevelDesc>{data.step} 입니다</LevelDesc>
       <StepWrap>
-        <BackColor level={level}>
-          <img src={`/image/graph/graph_${level}.png`} alt="" />
+        <BackColor level={data.level}>
+          <img src={`/image/graph/graph_${data.level}.png`} alt="" />
           <div></div>
           <div></div>
           <div></div>
@@ -30,9 +27,9 @@ function LevelResult({ level }) {
           <div></div>
           <div></div>
         </BackColor>
-        {level !== 8 && (
+        {data.level !== 8 && (
           <StepLevel>
-            <img src={`/image/step/level_${level}.png`} alt="" />
+            <img src={`/image/step/level_${data.level}.png`} alt="" />
           </StepLevel>
         )}
       </StepWrap>

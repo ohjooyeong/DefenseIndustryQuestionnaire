@@ -61,7 +61,7 @@ function TypeB({
       value = inputPriceFormat(value);
     }
 
-    if (data.date) {
+    if (data.check_date) {
       value = inputDateFormat(value);
       value = value.slice(0, 10);
     }
@@ -120,7 +120,7 @@ function TypeB({
               placeholder={
                 focused
                   ? ""
-                  : data.date
+                  : data.check_date
                   ? "숫자를 입력해주세요. 예) 20100101"
                   : data.number
                   ? "숫자만 입력해주세요."
