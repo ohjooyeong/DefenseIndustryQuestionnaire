@@ -77,18 +77,20 @@ const classifyIns = (data) => {
   return center;
 };
 
+// const resultDBcreate = async (data) => {
+//   data.forEach(async (el) => {
+//     await db.Result.findOneAndUpdate({ name: el.name }, el, {
+//       new: true,
+//       upsert: true,
+//     });
+//   });
+// };
+
 export const postResultController = async (req, res, next) => {
   try {
     const {
       body: { company, score, question, foundation },
     } = req;
-    const companyContext = {
-      name: company.orgName,
-      phone: Number(company.phoneNum),
-      email: company.email,
-      agree: company.checked,
-      charge_person: company.name,
-    };
     const total_score = addScore(score);
     const level = divideLevel(total_score);
     const reportContext = {
@@ -111,6 +113,15 @@ export const postResultController = async (req, res, next) => {
       }
     );
 
+    const companyContext = {
+      name: company.orgName,
+      phone: Number(company.phoneNum),
+      email: company.email,
+      agree: company.checked,
+      charge_person: company.name,
+      institution: institutionModel._id,
+    };
+
     // 회사 DB 생성
     const companyModel = await db.Company.findOneAndUpdate(
       { name: companyContext.name },
@@ -121,21 +132,36 @@ export const postResultController = async (req, res, next) => {
       }
     );
 
-    // 기관에 회사 ID 자식관계 설정
-    const addCompanyToInstitution = await db.Institution.findByIdAndUpdate(
-      institutionModel._id,
-      {
-        $set: {
-          company: companyModel,
-        },
-      },
-      { new: true, useFindAndModify: false }
-    );
-
     return res.status(200).json({
       status: 200,
       error: null,
       data: { score: total_score, level, company: companyModel.name },
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const getResultController = async (req, res, next) => {
+  try {
+    const {
+      query: { level, company },
+    } = req;
+    const data = await db.Result.findOne({ level: level });
+
+    const result = {
+      level: data.level,
+      problem: data.problem,
+      step: data.step,
+      summary: data.summary,
+      name: data.name,
+    };
+
+    return res.status(200).json({
+      status: 200,
+      error: null,
+      data: result,
     });
   } catch (error) {
     console.log(error);

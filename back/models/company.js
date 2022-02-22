@@ -19,6 +19,10 @@ const companySchema = mongoose.Schema(
     agree: {
       type: Array,
     },
+    institution: {
+      type: schema.Types.ObjectId,
+      ref: "Institution",
+    },
   },
   { timestamps: true }
 );

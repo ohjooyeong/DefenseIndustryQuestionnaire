@@ -25,6 +25,9 @@ function Result() {
     (async () => {
       try {
         const company = JSON.parse(localStorage.getItem("profile"));
+        // if (company.result) {
+        //   return;
+        // }
         const score = JSON.parse(localStorage.getItem("score"));
         const question = JSON.parse(localStorage.getItem("question"));
         const foundation = JSON.parse(localStorage.getItem("foundation"));
@@ -36,6 +39,7 @@ function Result() {
         };
         const { data } = await axios.post(`/api/v1/question/result`, context);
         setResultData(data.data);
+        // localStorage["profile"] = JSON.stringify(company);
 
         localStorage["result"] = JSON.stringify(data.data);
       } catch (error) {

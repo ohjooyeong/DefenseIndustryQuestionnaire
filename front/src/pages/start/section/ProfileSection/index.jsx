@@ -86,6 +86,7 @@ function ProfileSection() {
         phoneNum,
         email,
         checked,
+        result: false,
       });
 
       navigate("../foundation");
