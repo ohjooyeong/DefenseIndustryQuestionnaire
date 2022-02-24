@@ -16,6 +16,7 @@ function Question() {
   const [curPk, setCurPk] = useState("q-1");
   const [answerList, setAnswerList] = useState([]);
   const [pkList, setPkList] = useState([]);
+  const [qNumber, setQNumber] = useState(0);
   const navigate = useNavigate();
 
   const renderFoundation = () => {
@@ -32,6 +33,7 @@ function Question() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeA>
             </ActiveDiv>
           );
@@ -48,6 +50,7 @@ function Question() {
                 setPkList={setPkList}
                 scoreData={scoreData}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeB>
             </ActiveDiv>
           );
@@ -63,6 +66,7 @@ function Question() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeC>
             </ActiveDiv>
           );
@@ -80,6 +84,7 @@ function Question() {
                 setScoreData={setScoreData}
                 scoreData={scoreData}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeD>
             </ActiveDiv>
           );
@@ -96,7 +101,9 @@ function Question() {
     }
   }, []);
 
-  useEffect(() => {}, [curPk]);
+  useEffect(() => {
+    setQNumber(pkList.length + 1);
+  }, [curPk]);
 
   return (
     <div className={styles.container}>

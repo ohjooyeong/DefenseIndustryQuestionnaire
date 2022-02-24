@@ -13,6 +13,7 @@ function TypeC({
   answerList,
   pkList,
   setPkList,
+  qNumber,
 }) {
   const [answer, setAnswer] = useState([]);
   const handleToggleAnswer = useCallback(
@@ -55,7 +56,7 @@ function TypeC({
           <div className={styles.category}>{category}</div>
           <div
             className={styles.content}
-            dangerouslySetInnerHTML={{ __html: data.content }}
+            dangerouslySetInnerHTML={{ __html: `${qNumber}. ${data.content}` }}
           ></div>
           <div className={styles.chip_wrap}>
             {data.answer.map((q, i) => (
@@ -122,6 +123,7 @@ const ChipLabel = styled("label")`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  user-select: none;
 
   ${(props) =>
     props.active &&

@@ -48,6 +48,7 @@ function ProfileSection() {
     let value = emojiSlice(e.target.value);
     value = spaceSlice(value);
     value = value.replace(/[^0-9]/g, "");
+    value = value.slice(0, 12);
     setPhoneNum(value);
   }, []);
 
@@ -131,7 +132,7 @@ function ProfileSection() {
             <div className={styles.field_wrap}>
               <BpTextField
                 id="standard-textarea"
-                label="담당자 성함"
+                label="대표자 성함"
                 multiline
                 variant="standard"
                 fullWidth

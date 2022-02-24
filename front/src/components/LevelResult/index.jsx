@@ -9,7 +9,7 @@ function LevelResult({ data }) {
         <img src={`/image/level/level_${data.level}.png`} alt="" />
       </LevelRibbon>
       <LevelHelmet>
-        <img src={`/image/helmet/level_${data.level}.png`} alt="" />
+        <img src={`/image/rocket/rocket.png`} alt="" />
       </LevelHelmet>
       <LevelTitle>
         당신은 <b>{data.name} 단계</b>시군요

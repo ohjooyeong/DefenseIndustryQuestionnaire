@@ -9,12 +9,15 @@ import TypeD from "../../components/Question/typeD";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
+import TypeE from "../../components/Question/typeE";
 
 function Foundation() {
   const [Data, setData] = useState(null);
   const [curPk, setCurPk] = useState("f-1");
   const [answerList, setAnswerList] = useState([]);
   const [pkList, setPkList] = useState([]);
+  const [qNumber, setQNumber] = useState(0);
+
   const navigate = useNavigate();
 
   const renderFoundation = () => {
@@ -31,6 +34,7 @@ function Foundation() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeA>
             </ActiveDiv>
           );
@@ -46,6 +50,7 @@ function Foundation() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeB>
             </ActiveDiv>
           );
@@ -61,6 +66,7 @@ function Foundation() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeC>
             </ActiveDiv>
           );
@@ -76,7 +82,24 @@ function Foundation() {
                 setCurPk={setCurPk}
                 setPkList={setPkList}
                 pkList={pkList}
+                qNumber={qNumber}
               ></TypeD>
+            </ActiveDiv>
+          );
+        }
+        if (item.type === "E") {
+          return (
+            <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
+              <TypeE
+                data={item}
+                category={Data.foundation_category.name}
+                setAnswerList={setAnswerList}
+                answerList={answerList}
+                setCurPk={setCurPk}
+                setPkList={setPkList}
+                pkList={pkList}
+                qNumber={qNumber}
+              ></TypeE>
             </ActiveDiv>
           );
         }
@@ -91,6 +114,10 @@ function Foundation() {
       navigate("../");
     }
   }, []);
+
+  useEffect(() => {
+    setQNumber(pkList.length + 1);
+  }, [curPk]);
 
   return (
     <div className={styles.container}>

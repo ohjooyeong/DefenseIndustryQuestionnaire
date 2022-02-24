@@ -16,6 +16,7 @@ function TypeD({
   setPkList,
   scoreData,
   setScoreData,
+  qNumber,
 }) {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
@@ -60,10 +61,7 @@ function TypeD({
       {data && (
         <div className={styles.wrapper}>
           <div className={styles.category}>{category}</div>
-          <div
-            className={styles.content}
-            dangerouslySetInnerHTML={{ __html: data.content }}
-          ></div>
+          <div className={styles.content}>{`${qNumber}. ${data.content}`}</div>
           <div className={styles.chip_wrap}>
             {data.answer.map((q, i) => (
               <div key={q + i}>
@@ -125,6 +123,7 @@ const ChipLabel = styled("label")`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  user-select: none;
 
   ${(props) =>
     props.active &&

@@ -12,6 +12,7 @@ function TypeB({
   pkList,
   setPkList,
   scoreData,
+  qNumber,
 }) {
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
@@ -59,6 +60,10 @@ function TypeB({
     }
     if (data.unit === "원") {
       value = inputPriceFormat(value);
+    }
+
+    if (data.unit === "%") {
+      value = value.slice(0, 3);
     }
 
     if (data.check_date) {
@@ -110,10 +115,7 @@ function TypeB({
       {data && (
         <>
           <div className={styles.category}>{category}</div>
-          <div
-            className={styles.content}
-            dangerouslySetInnerHTML={{ __html: data.content }}
-          ></div>
+          <div className={styles.content}>{`${qNumber}. ${data.content}`}</div>
           <div className={styles.input_wrap}>
             <input
               className={styles.text_input}
