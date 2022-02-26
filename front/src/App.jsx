@@ -9,7 +9,7 @@ import Result from "./pages/result";
 import Company from "./pages/result/company";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5500";
+axios.defaults.baseURL = "http://localhost:8001";
 
 const theme = createTheme({
   typography: {

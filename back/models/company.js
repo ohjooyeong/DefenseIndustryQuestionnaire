@@ -23,6 +23,9 @@ const companySchema = mongoose.Schema(
       type: schema.Types.ObjectId,
       ref: "Institution",
     },
+    level: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

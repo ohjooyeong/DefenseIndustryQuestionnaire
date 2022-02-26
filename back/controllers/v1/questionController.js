@@ -120,11 +120,15 @@ export const postResultController = async (req, res, next) => {
       agree: company.checked,
       charge_person: company.name,
       institution: institutionModel._id,
+      level: level,
     };
 
     // 회사 DB 생성
     const companyModel = await db.Company.findOneAndUpdate(
-      { name: companyContext.name },
+      {
+        name: companyContext.name,
+        charge_person: companyContext.charge_person,
+      },
       companyContext,
       {
         new: true,
