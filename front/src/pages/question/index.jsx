@@ -27,7 +27,13 @@ function Question() {
             <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
               <TypeA
                 data={item}
-                category={Data.foundation_category.name}
+                category={
+                  Data.question_category[
+                    Data.question_category.findIndex(
+                      (el) => el.pk === item.category_id
+                    )
+                  ].name
+                }
                 setAnswerList={setAnswerList}
                 answerList={answerList}
                 setCurPk={setCurPk}
@@ -43,7 +49,13 @@ function Question() {
             <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
               <TypeB
                 data={item}
-                category={Data.foundation_category.name}
+                category={
+                  Data.question_category[
+                    Data.question_category.findIndex(
+                      (el) => el.pk === item.category_id
+                    )
+                  ].name
+                }
                 setAnswerList={setAnswerList}
                 answerList={answerList}
                 setCurPk={setCurPk}
@@ -60,7 +72,13 @@ function Question() {
             <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
               <TypeC
                 data={item}
-                category={Data.foundation_category.name}
+                category={
+                  Data.question_category[
+                    Data.question_category.findIndex(
+                      (el) => el.pk === item.category_id
+                    )
+                  ].name
+                }
                 setAnswerList={setAnswerList}
                 answerList={answerList}
                 setCurPk={setCurPk}
@@ -76,7 +94,13 @@ function Question() {
             <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
               <TypeD
                 data={item}
-                category={Data.foundation_category.name}
+                category={
+                  Data.question_category[
+                    Data.question_category.findIndex(
+                      (el) => el.pk === item.category_id
+                    )
+                  ].name
+                }
                 setAnswerList={setAnswerList}
                 answerList={answerList}
                 setCurPk={setCurPk}
