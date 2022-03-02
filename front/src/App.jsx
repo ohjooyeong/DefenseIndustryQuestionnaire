@@ -8,8 +8,9 @@ import Question from "./pages/question";
 import Result from "./pages/result";
 import Company from "./pages/result/company";
 import axios from "axios";
+import CompanyReport from "./pages/report/company";
 
-axios.defaults.baseURL = "http://localhost:8001";
+axios.defaults.baseURL = "http://localhost:5000";
 
 const theme = createTheme({
   typography: {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/question" element={<Question />} />
             <Route path="/result" element={<Result />} />
             <Route path="/result/:company" element={<Company />} />
+            <Route path="/report/:company" element={<CompanyReport />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>
