@@ -13,4 +13,5 @@
   flex-direction: column;
   box-sizing: border-box;
   padding: 24px 32px 40px;
+  box-shadow: 1px 1px 10px #000;
 }
