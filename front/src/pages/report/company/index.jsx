@@ -79,7 +79,7 @@ function CompanyReport() {
                   확인하고, 그에 따른 문제점과 해결방안을 제공합니다
                 </Desc>
                 <CompanyName>
-                  {`기업명: ${Data.company?.name} / ${Data.result?.step}`}
+                  {`기업명: ${Data.company?.name} / ${Data.result?.name} 단계`}
                 </CompanyName>
                 <StepWrap>
                   <BackColor level={Data.result?.level}>
