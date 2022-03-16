@@ -53,14 +53,28 @@ function Result() {
   }, []);
 
   const handleReport = useCallback(() => {
-    const profile = JSON.parse(localStorage.getItem("result"));
-    if (profile) {
-      localStorage.removeItem("profile");
-      localStorage.removeItem("score");
-      localStorage.removeItem("question");
-      localStorage.removeItem("foundation");
-      navigate(`../result/${profile.company}`);
-    }
+    (async () => {
+      try {
+        const result = JSON.parse(localStorage.getItem("result"));
+
+        const context = {
+          result,
+        };
+        const { data } = await axios.post(`/api/v1/question/report`, context);
+        localStorage["report"] = JSON.stringify({
+          id: data.data.id,
+        });
+
+        localStorage.removeItem("profile");
+        localStorage.removeItem("score");
+        localStorage.removeItem("question");
+        localStorage.removeItem("foundation");
+        navigate(`../result/${result.company.name}`);
+      } catch (error) {
+        console.dir(error);
+      } finally {
+      }
+    })();
   }, []);
 
   return (

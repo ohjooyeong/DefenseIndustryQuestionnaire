@@ -33,7 +33,7 @@ function App() {
             <Route path="/question" element={<Question />} />
             <Route path="/result" element={<Result />} />
             <Route path="/result/:company" element={<Company />} />
-            <Route path="/report/:company" element={<CompanyReport />} />
+            <Route path="/report/:id" element={<CompanyReport />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>

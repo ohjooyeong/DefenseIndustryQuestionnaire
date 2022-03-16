@@ -4,16 +4,27 @@
   position: relative;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  background-color: #e2e2e2;
 }
 
 .wrapper {
-  width: 595px;
+  width: 598px;
+  background-color: #fff;
 
-  justify-content: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   box-sizing: border-box;
   padding: 24px 32px 40px;
-  box-shadow: 1px 1px 10px #000;
+  margin-bottom: 20px;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10px;
 }

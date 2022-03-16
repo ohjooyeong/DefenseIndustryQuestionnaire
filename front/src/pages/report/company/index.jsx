@@ -1,50 +1,127 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReportTop from "../../../components/ReportTop";
 import SupportBusiness from "../../../components/SupportBusiness";
+import { getFormattedDate } from "../../../utils/dateFormat";
 import styles from "./company.module.css";
+import html2canvas from "html2canvas";
+import JsPDF from "jspdf";
 
 function CompanyReport() {
+  const [Data, setData] = useState(null);
+
+  const navigate = useNavigate();
+  const printRef = React.useRef();
+
+  const handleDownloadPdf = async () => {
+    window.scrollTo(0, 0);
+    const element = printRef.current;
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+
+    const imgWidth = 190;
+    const pageHeight = 290;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    const doc = new JsPDF("pt", "mm");
+    let position = 0;
+    doc.addImage(imgData, "PNG", 10, 0, imgWidth, imgHeight + 10);
+    heightLeft -= pageHeight;
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      doc.addPage();
+      doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight + 10);
+      heightLeft -= pageHeight;
+    }
+    doc.save(
+      `${Data.company?.name}-${getFormattedDate(
+        new Date(Data.createdAt),
+        "yyyy-MM-dd"
+      )}.pdf`
+    );
+  };
+
+  useEffect(() => {
+    const result = JSON.parse(localStorage["result"]);
+    const report = JSON.parse(localStorage["report"]);
+    if (!result || !report) {
+      return navigate("../");
+    }
+
+    (async () => {
+      try {
+        console.log(report.id);
+        const { data } = await axios.get(`/api/v1/question/report`, {
+          params: { id: report.id },
+        });
+
+        setData(data.data);
+      } catch (error) {
+        console.dir(error);
+      } finally {
+      }
+    })();
+  }, []);
   return (
     <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <ReportTop purpose={"기업용"} color="blue"></ReportTop>
-        <Body>
-          <Title>협약기업 분석 및 해결방안</Title>
-          <Desc>
-            기업 진단질문 결과의 점수를 종합하여 기업의 현재 사업화 단계를
-            확인하고, 그에 따른 문제점과 해결방안을 제공합니다
-          </Desc>
-          <CompanyName>기업명: (주)페이서 / 군사업 진입준비 단계</CompanyName>
-          <StepWrap>
-            <BackColor level={4}>
-              <img src={`/image/graph/graph_4.png`} alt="" />
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </BackColor>
-          </StepWrap>
-          <DiffWrap>
-            <DiffTitle>애로사항</DiffTitle>
-            <span>1. 국방시장의 이해</span>
-            <span>2. 국방사업 참여 동기 강화</span>
-            <span>3. 제품(기술)의 진입분야 조사(스팩 확인)</span>
-            <span>4. 제품(기술) 개발 포인트 확인</span>
-            <span>5. 사업화 문의처 필요</span>
-            <span>6. 협약기업에 맞는 과제 찾기 어려움</span>
-          </DiffWrap>
-          <SupportBusiness></SupportBusiness>
-        </Body>
-        <Footer>
-          <div>2022-01-20</div>
-          <div>1</div>
-        </Footer>
+      <div className={styles.section}>
+        <div className={styles.wrapper} ref={printRef}>
+          {Data && (
+            <>
+              <ReportTop purpose={"기업용"} color="blue"></ReportTop>
+              <Body>
+                <Title>협약기업 분석 및 해결방안</Title>
+                <Desc>
+                  기업 진단질문 결과의 점수를 종합하여 기업의 현재 사업화 단계를
+                  확인하고, 그에 따른 문제점과 해결방안을 제공합니다
+                </Desc>
+                <CompanyName>
+                  {`기업명: ${Data.company?.name} / ${Data.result?.step}`}
+                </CompanyName>
+                <StepWrap>
+                  <BackColor level={Data.result?.level}>
+                    <img
+                      src={`/image/graph/graph_${Data.result?.level}.png`}
+                      alt=""
+                    />
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </BackColor>
+                </StepWrap>
+                <DiffWrap>
+                  <DiffTitle>애로사항</DiffTitle>
+                  <ProblemList>
+                    {Data.result.problem.map((p, i) => (
+                      <li key={p + i}>
+                        {i + 1}. {p}
+                      </li>
+                    ))}
+                  </ProblemList>
+                </DiffWrap>
+                <SupportBusiness
+                  solution={Data.solution}
+                  support={Data.support}
+                ></SupportBusiness>
+              </Body>
+              <Footer>
+                <div>
+                  {getFormattedDate(new Date(Data.createdAt), "yyyy-MM-dd")}
+                </div>
+                <div></div>
+              </Footer>
+            </>
+          )}
+        </div>
+        <PDFButton onClick={handleDownloadPdf}>PDF 다운로드</PDFButton>
       </div>
     </div>
   );
@@ -162,22 +239,29 @@ const DiffWrap = styled("div")`
   display: flex;
   flex-direction: column;
 
-  span {
-    font-weight: normal;
-    font-size: 10px;
-    line-height: 16px;
+  margin-bottom: 20px;
+`;
 
-    letter-spacing: -0.0025em;
+const ProblemList = styled("ul")`
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
 
-    color: #616161;
+  letter-spacing: -0.0025em;
+
+  color: #616161;
+
+  li {
     margin-left: 1px;
     margin-bottom: 3px;
-    :last-child {
-      margin-bottom: 0px;
-    }
   }
 
-  margin-bottom: 20px;
+  li:last-child {
+    margin-bottom: 0px;
+  }
 `;
 
 const DiffTitle = styled("h3")`
@@ -189,4 +273,21 @@ const DiffTitle = styled("h3")`
   color: #093476;
 
   margin-bottom: 4px;
+`;
+
+const PDFButton = styled("button")`
+  width: 398px;
+  margin-bottom: 20px;
+  background: #005dc9;
+  border-radius: 12px;
+  height: 50px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 28px;
+
+  letter-spacing: -0.0025em;
+
+  color: #ffffff;
+  border: 0;
+  cursor: pointer;
 `;

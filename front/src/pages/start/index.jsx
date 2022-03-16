@@ -7,6 +7,8 @@ function Start() {
 
   const handleNext = useCallback(() => {
     localStorage.removeItem("profile");
+    localStorage.removeItem("report");
+    localStorage.removeItem("result");
     setStartBtn(true);
   }, []);
 
