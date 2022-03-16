@@ -10,6 +10,18 @@ const solutionSchema = mongoose.Schema(
     content: {
       type: Object,
     },
+    period: {
+      type: Array,
+    },
+    period_target: {
+      type: Number,
+    },
+    field_target: {
+      type: Number,
+    },
+    level: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );

@@ -26,6 +26,36 @@ const companySchema = mongoose.Schema(
     level: {
       type: Number,
     },
+    item: {
+      type: String,
+    },
+    type: {
+      type: Array,
+    },
+    property_rights: {
+      type: Boolean,
+    },
+    properties: {
+      type: Number,
+    },
+    participation_date: {
+      type: Number,
+    },
+    business_sales: {
+      type: Number,
+    },
+    defense_proportion: {
+      type: Number,
+    },
+    establishment: {
+      type: Date,
+    },
+    systematic_enterprise: {
+      type: String,
+    },
+    defense_category: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

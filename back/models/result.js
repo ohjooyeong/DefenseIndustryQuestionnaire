@@ -15,10 +15,6 @@ const resultSchema = mongoose.Schema(
     problem: {
       type: Array,
     },
-    solution: {
-      type: schema.Types.ObjectId,
-      ref: "Solution",
-    },
   },
   { timestamps: true }
 );

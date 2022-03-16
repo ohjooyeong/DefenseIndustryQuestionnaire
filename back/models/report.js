@@ -10,13 +10,10 @@ const reportSchema = mongoose.Schema(
     },
     score: { type: Number },
     result: { type: schema.Types.ObjectId, ref: "Result" },
-    consulting: {
+    solution: {
       type: Array,
     },
-    question: {
-      type: Array,
-    },
-    foundation: {
+    support: {
       type: Array,
     },
   },

@@ -10,8 +10,14 @@ const supportSchema = mongoose.Schema(
     content: {
       type: Object,
     },
-    start_date: {
-      type: Date,
+    period: {
+      type: Array,
+    },
+    period_target: {
+      type: Array,
+    },
+    support_target: {
+      type: String,
     },
   },
   { timestamps: true }
