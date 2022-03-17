@@ -15,7 +15,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "http://ec2-54-180-11-0.ap-northeast-2.compute.amazonaws.com:3000",
+      "http://valuefarm.pacer.co.kr",
+    ],
   })
 );
 

@@ -3,29 +3,28 @@ import styled from "@emotion/styled";
 import React from "react";
 
 function PeriodTable({ solution }) {
-  const renderTableBody = (data) => {
+  const renderConsult = (data) => {
+    if (data.field) {
+      return;
+    }
     return (
       <React.Fragment key={data.name}>
-        <TableDivName>
-          <p>{data.name}</p>
-        </TableDivName>
-        <div style={{ width: "100%", position: "relative" }}>
-          <TableDiv></TableDiv>
-          <Period>
-            <p>상시 지원</p>
-          </Period>
-        </div>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
-        <TableDiv></TableDiv>
+        <Item field={data.field}>
+          <span>{data.name}</span>
+        </Item>
+      </React.Fragment>
+    );
+  };
+
+  const renderDefense = (data) => {
+    if (!data.field) {
+      return;
+    }
+    return (
+      <React.Fragment key={data.name}>
+        <Item field={data.field}>
+          <span>{data.name}</span>
+        </Item>
       </React.Fragment>
     );
   };
@@ -35,49 +34,20 @@ function PeriodTable({ solution }) {
       <SubTitle color={"#f8d1b6"}>
         <div></div>교육 및 컨설팅
       </SubTitle>
-      <Table>
-        <TableDiv></TableDiv>
-        <TableDiv>
-          <p>1월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>2월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>3월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>4월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>5월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>6월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>7월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>8월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>9월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>10월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>11월</p>
-        </TableDiv>
-        <TableDiv>
-          <p>12월</p>
-        </TableDiv>
-
+      <ItemWrap>
         {solution.map((data) => {
-          return renderTableBody(data);
+          return renderConsult(data);
         })}
-      </Table>
+      </ItemWrap>
+
+      <SubTitle color={"#9DC3E6"}>
+        <div></div>방위산업 지원 사업
+      </SubTitle>
+      <ItemWrap>
+        {solution.map((data) => {
+          return renderDefense(data);
+        })}
+      </ItemWrap>
     </>
   );
 }
@@ -93,7 +63,7 @@ const SubTitle = styled("h4")`
 
   letter-spacing: -0.0025em;
 
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
   color: #212121;
 
@@ -112,131 +82,37 @@ const SubTitle = styled("h4")`
   }
 `;
 
-const Table = styled("div")`
-  display: grid;
-
-  border-radius: 4px;
-  border-style: hidden;
-  border: 0.1px solid #888888;
-  margin-bottom: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-sizing: border-box;
-  border-bottom: 0;
-  border-right: 0;
-
-  z-index: 0;
-
-  grid-template-columns: 148px repeat(12, 28.9px);
+const ItemWrap = styled("div")`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 6px;
+  margin-bottom: 16px;
 `;
 
-const TableDiv = styled("div")`
-  height: 26px;
-  border-style: hidden;
-
-  position: relative;
-  z-index: 0;
-
-  vertical-align: middle;
-  letter-spacing: -0.0025em;
-
-  color: #212121;
-  box-sizing: border-box;
+const Item = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 0.1px solid #888888;
-  border-right: 0.1px solid #888888;
-
-  p {
-    -webkit-transform: scale(0.83);
-    display: block;
-    font-size: 10px;
-    line-height: 17px;
-  }
-`;
-
-const TableDivName = styled("div")`
-  height: 26px;
-  border-style: hidden;
-
-  position: relative;
-  z-index: 0;
-
-  vertical-align: middle;
-  letter-spacing: -0.0025em;
-
-  color: #212121;
+  padding: 0px 10px;
+  border: 1px solid #f8d1b6;
   box-sizing: border-box;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  border-bottom: 0.1px solid #888888;
-  border-right: 0.1px solid #888888;
-  overflow: hidden;
+  border-radius: 2px;
+  height: 18px;
+  padding-top: 0.5px;
 
-  p {
-    -webkit-transform: scale(0.83);
-    display: block;
-    font-size: 10px;
-    line-height: 17px;
-    width: 100%;
-  }
-`;
-
-const Period = styled("div")`
-  position: absolute;
-  height: 16px;
-  width: 338px;
-  background: linear-gradient(
-      0deg,
-      rgba(248, 209, 182, 0.6),
-      rgba(248, 209, 182, 0.6)
-    ),
-    #ffffff;
-  border-radius: 8px;
-  top: 5px;
-  left: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-
-  font-weight: 700;
-  color: #212121;
-  letter-spacing: -0.0025em;
-
-  p {
-    -webkit-transform: scale(0.83);
-    font-size: 10px;
-    line-height: 17px;
-  }
-`;
-
-const DivPeriod = styled("div")`
-  position: absolute;
-  height: 16px;
   ${(props) =>
-    props.length &&
+    props.field &&
     css`
-      width: ${props.length}px;
+      border-color: ${props.field ? "#9dc3e6" : "#f8d1b6"};
     `}
-  background: linear-gradient(0deg, rgba(157, 195, 230, 0.6), rgba(157, 195, 230, 0.6)), #FFFFFF;
-  border-radius: 8px;
-  top: 5px;
-  left: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: 700;
-  color: #212121;
   letter-spacing: -0.0025em;
-
-  p {
-    -webkit-transform: scale(0.83);
+  span {
+    -webkit-transform: scale(0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 10px;
-    line-height: 17px;
+    line-height: 15.4px;
+    color: #212121;
   }
 `;

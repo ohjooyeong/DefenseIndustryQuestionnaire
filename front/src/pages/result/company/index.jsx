@@ -38,7 +38,7 @@ function Company() {
     window.open(
       `/report/${report.id}`,
       `${result.company} - 보고서`,
-      "width=640,height=700,location=no,status=no,scrollbars=yes"
+      "width=800,height=700,location=no,status=no,scrollbars=yes"
     );
   }, []);
 

@@ -7,18 +7,7 @@ const solutionSchema = mongoose.Schema(
     name: {
       type: String,
     },
-    content: {
-      type: Object,
-    },
-    period: {
-      type: Array,
-    },
-    period_target: {
-      type: Number,
-    },
-    field_target: {
-      type: Number,
-    },
+    field: { type: Number },
     level: {
       type: Array,
     },

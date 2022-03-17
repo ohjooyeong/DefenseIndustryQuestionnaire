@@ -47,7 +47,7 @@ function SupportBusiness({ solution, support }) {
       </Desc>
       <PeriodTable solution={solution} />
       <SubTitle color={"#9dc3e6"}>
-        <div></div>방위산업 지원 사업
+        <div></div>민수 지원 사업
       </SubTitle>
       <Table>
         <TableDiv></TableDiv>
@@ -155,14 +155,12 @@ const Table = styled("div")`
 
   border-radius: 4px;
   border-style: hidden;
-  border: 0.1px solid #888888;
+  border: 0.8px solid #616161;
   margin-bottom: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   box-sizing: border-box;
-  border-bottom: 0;
-  border-right: 0;
 
   z-index: 0;
 
@@ -184,8 +182,8 @@ const TableDiv = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 0.1px solid #888888;
-  border-right: 0.1px solid #888888;
+  border-bottom: 0.2px solid #888888;
+  border-right: 0.2px solid #888888;
 
   p {
     -webkit-transform: scale(0.83);
@@ -210,8 +208,8 @@ const TableDivName = styled("div")`
   display: flex;
   justify-content: start;
   align-items: center;
-  border-bottom: 0.1px solid #888888;
-  border-right: 0.1px solid #888888;
+  border-bottom: 0.2px solid #888888;
+  border-right: 0.2px solid #888888;
   overflow: hidden;
 
   p {

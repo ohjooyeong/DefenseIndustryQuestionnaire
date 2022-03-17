@@ -10,7 +10,7 @@ import Company from "./pages/result/company";
 import axios from "axios";
 import CompanyReport from "./pages/report/company";
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://valuefarm.pacer.co.kr:5000";
 
 const theme = createTheme({
   typography: {

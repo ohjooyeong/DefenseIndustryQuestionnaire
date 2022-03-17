@@ -1,5 +1,6 @@
 import db from "../../models/index.js";
-import { solution } from "../../solution.js";
+import { result_data } from "../../result.js";
+import { solution_data } from "../../solution.js";
 import { support_data } from "../../support.js";
 
 const divideLevel = (score) => {
@@ -178,9 +179,25 @@ const FindCondi = (data) => {
 
 // DB Create
 
-// const createSupportDB = (data) => {
+const createSupportDB = (data) => {
+  data.map(async (d) => {
+    const SupportModel = await db.Support.findOneAndUpdate(
+      {
+        name: d.name,
+      },
+      d,
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+    return SupportModel;
+  });
+};
+
+// const createSolutionDB = (data) => {
 //   data.map(async (d) => {
-//     const SupportModel = await db.Support.findOneAndUpdate(
+//     const SupportModel = await db.Solution.findOneAndUpdate(
 //       {
 //         name: d.name,
 //       },
@@ -194,9 +211,9 @@ const FindCondi = (data) => {
 //   });
 // };
 
-// const createSolutionDB = (data) => {
+// const createResultDB = (data) => {
 //   data.map(async (d) => {
-//     const SupportModel = await db.Solution.findOneAndUpdate(
+//     const SupportModel = await db.Result.findOneAndUpdate(
 //       {
 //         name: d.name,
 //       },
@@ -352,14 +369,14 @@ export const postReportController = async (req, res, next) => {
     }
     const supportUnique = [...map.values()];
 
-    const solutiontData = await db.Solution.find({
+    const solutionData = await db.Solution.find({
       level: level,
     });
     const report = new db.Report({
       company: companyData._id,
       score: score,
       result: resultData._id,
-      solution: solutiontData,
+      solution: solutionData,
       support: supportUnique,
     });
 
