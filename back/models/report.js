@@ -16,6 +16,9 @@ const reportSchema = mongoose.Schema(
     support: {
       type: Array,
     },
+    question: {
+      type: Object,
+    },
   },
   { timestamps: true }
 );

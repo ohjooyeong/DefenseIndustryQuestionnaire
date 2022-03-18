@@ -15,6 +15,9 @@ const resultSchema = mongoose.Schema(
     problem: {
       type: Array,
     },
+    stage: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
