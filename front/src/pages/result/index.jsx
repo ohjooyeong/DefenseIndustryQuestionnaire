@@ -38,9 +38,12 @@ function Result() {
           foundation,
         };
         const { data } = await axios.post(`/api/v1/question/result`, context);
-        if (data.staus === 200) {
+
+        if (data.status === 200) {
           setResultData(data.data);
           localStorage["result"] = JSON.stringify(data.data);
+        } else {
+          alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요");
         }
         // localStorage["profile"] = JSON.stringify(company);
       } catch (error) {
@@ -64,7 +67,7 @@ function Result() {
           question,
         };
         const { data } = await axios.post(`/api/v1/question/report`, context);
-        if (data.staus === 200) {
+        if (data.status === 200) {
           localStorage["report"] = JSON.stringify({
             id: data.data.id,
           });
@@ -74,6 +77,8 @@ function Result() {
           localStorage.removeItem("question");
           localStorage.removeItem("foundation");
           navigate(`../result/${result.company.name}`);
+        } else {
+          alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요");
         }
       } catch (error) {
         console.dir(error);
