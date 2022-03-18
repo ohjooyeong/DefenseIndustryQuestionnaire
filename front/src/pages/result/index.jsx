@@ -38,10 +38,11 @@ function Result() {
           foundation,
         };
         const { data } = await axios.post(`/api/v1/question/result`, context);
-        setResultData(data.data);
+        if (data.staus === 200) {
+          setResultData(data.data);
+          localStorage["result"] = JSON.stringify(data.data);
+        }
         // localStorage["profile"] = JSON.stringify(company);
-
-        localStorage["result"] = JSON.stringify(data.data);
       } catch (error) {
         console.dir(error);
       } finally {
@@ -56,20 +57,24 @@ function Result() {
     (async () => {
       try {
         const result = JSON.parse(localStorage.getItem("result"));
+        const question = JSON.parse(localStorage.getItem("question"));
 
         const context = {
           result,
+          question,
         };
         const { data } = await axios.post(`/api/v1/question/report`, context);
-        localStorage["report"] = JSON.stringify({
-          id: data.data.id,
-        });
+        if (data.staus === 200) {
+          localStorage["report"] = JSON.stringify({
+            id: data.data.id,
+          });
 
-        localStorage.removeItem("profile");
-        localStorage.removeItem("score");
-        localStorage.removeItem("question");
-        localStorage.removeItem("foundation");
-        navigate(`../result/${result.company.name}`);
+          localStorage.removeItem("profile");
+          localStorage.removeItem("score");
+          localStorage.removeItem("question");
+          localStorage.removeItem("foundation");
+          navigate(`../result/${result.company.name}`);
+        }
       } catch (error) {
         console.dir(error);
       } finally {

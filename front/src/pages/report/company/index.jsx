@@ -53,7 +53,6 @@ function CompanyReport() {
 
     (async () => {
       try {
-        console.log(report.id);
         const { data } = await axios.get(`/api/v1/question/report`, {
           params: { id: report.id },
         });

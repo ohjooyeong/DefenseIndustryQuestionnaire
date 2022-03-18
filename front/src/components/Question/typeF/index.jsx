@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { emojiSlice, spaceSlice } from "../../../utils/inputCheck";
+import { emojiSlice } from "../../../utils/inputCheck";
 import styles from "./type.module.css";
+import TextareaAutosize from "react-textarea-autosize";
 
-function TypeB({
+function TypeF({
   category,
   data,
   setAnswerList,
@@ -27,52 +28,10 @@ function TypeB({
     setFocused(false);
   }, [focused]);
 
-  const inputPriceFormat = useCallback((str) => {
-    const comma = (str) => {
-      str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
-    };
-    const uncomma = (str) => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, "");
-    };
-    return comma(uncomma(str));
-  }, []);
-
-  const inputDateFormat = useCallback((str) => {
-    const comma = (str) => {
-      str = String(str);
-      return str.replace(/(\d\d\d\d)(\d\d)(\d\d)/g, "$1.$2.$3");
-    };
-    const uncomma = (str) => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, "");
-    };
-    return comma(uncomma(str));
-  }, []);
-
   const onChangeText = useCallback((e) => {
     let value = e.target.value;
     value = emojiSlice(value);
-    if (data.number) {
-      value = spaceSlice(value);
-      value = value.replace(/[^0-9]/g, "");
-    }
-    if (data.unit === "원") {
-      value = spaceSlice(value);
-      value = inputPriceFormat(value);
-    }
-
-    if (data.unit === "%") {
-      value = spaceSlice(value);
-      value = value.slice(0, 3);
-    }
-
-    if (data.check_date) {
-      value = spaceSlice(value);
-      value = inputDateFormat(value);
-      value = value.slice(0, 10);
-    }
+    value = value.slice(0, 1000);
 
     if (value) {
       setActiveBtn(true);
@@ -120,30 +79,16 @@ function TypeB({
           <div className={styles.category}>{category}</div>
           <div className={styles.content}>{`${qNumber}. ${data.content}`}</div>
           <div className={styles.input_wrap}>
-            <input
+            <TextareaAutosize
               className={styles.text_input}
-              placeholder={
-                focused
-                  ? ""
-                  : data.check_date
-                  ? "숫자를 입력해주세요. 예) 20100101"
-                  : data.number
-                  ? "숫자만 입력해주세요."
-                  : "입력해주세요."
-              }
+              placeholder={"입력해주세요."}
               value={text}
               onChange={onChangeText}
               onFocus={handleOnFocus}
               onBlur={handleOnBlur}
+              minRows={1}
+              maxRows={6}
             />
-            {(focused || text) && data.unit && (
-              <div className={styles.input_tail}>
-                <span style={{ color: "transparent", userSelect: "none" }}>
-                  {text}
-                </span>
-                <span>{data.unit}</span>
-              </div>
-            )}
           </div>
           <div className={styles.button_wrap}>
             {data.prev ? (
@@ -171,4 +116,4 @@ function TypeB({
   );
 }
 
-export default TypeB;
+export default TypeF;

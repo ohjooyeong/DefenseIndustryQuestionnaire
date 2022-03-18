@@ -9,6 +9,7 @@ import TypeB from "../../components/Question/typeB";
 import TypeC from "../../components/Question/typeC";
 import TypeD from "../../components/Question/typeD";
 import styles from "./question.module.css";
+import TypeF from "../../components/Question/typeF";
 
 function Question() {
   const [Data, setData] = useState(null);
@@ -110,6 +111,30 @@ function Question() {
                 pkList={pkList}
                 qNumber={qNumber}
               ></TypeD>
+            </ActiveDiv>
+          );
+        }
+        if (item.type === "F") {
+          return (
+            <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
+              <TypeF
+                data={item}
+                category={
+                  Data.question_category[
+                    Data.question_category.findIndex(
+                      (el) => el.pk === item.category_id
+                    )
+                  ].name
+                }
+                setAnswerList={setAnswerList}
+                answerList={answerList}
+                setCurPk={setCurPk}
+                setPkList={setPkList}
+                setScoreData={setScoreData}
+                scoreData={scoreData}
+                pkList={pkList}
+                qNumber={qNumber}
+              ></TypeF>
             </ActiveDiv>
           );
         }

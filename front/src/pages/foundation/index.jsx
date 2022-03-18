@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import TypeE from "../../components/Question/typeE";
+import TypeF from "../../components/Question/typeF";
 
 function Foundation() {
   const [Data, setData] = useState(null);
@@ -100,6 +101,22 @@ function Foundation() {
                 pkList={pkList}
                 qNumber={qNumber}
               ></TypeE>
+            </ActiveDiv>
+          );
+        }
+        if (item.type === "F") {
+          return (
+            <ActiveDiv active={item.pk === curPk} key={item.pk + item.content}>
+              <TypeF
+                data={item}
+                category={Data.foundation_category.name}
+                setAnswerList={setAnswerList}
+                answerList={answerList}
+                setCurPk={setCurPk}
+                setPkList={setPkList}
+                pkList={pkList}
+                qNumber={qNumber}
+              ></TypeF>
             </ActiveDiv>
           );
         }
