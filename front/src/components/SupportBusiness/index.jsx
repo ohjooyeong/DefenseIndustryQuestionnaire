@@ -15,7 +15,10 @@ function SupportBusiness({ solution, support }) {
         len = period[count][1] - period[count][0] + 1;
 
         rows.push(
-          <div style={{ width: "100%", position: "relative" }}>
+          <div
+            style={{ width: "100%", position: "relative" }}
+            key={i + data.name}
+          >
             <TableDiv key={i + data.name}></TableDiv>
             <DivPeriod length={len * 28.9 - 8}>
               <p>모집공고</p>

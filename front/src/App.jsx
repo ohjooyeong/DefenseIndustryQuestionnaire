@@ -10,6 +10,7 @@ import Company from "./pages/result/company";
 import axios from "axios";
 import CompanyReport from "./pages/report/company";
 import CenterReport from "./pages/report/center";
+import CenterCompany from "./pages/report/center/company";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/result/:company" element={<Company />} />
             <Route path="/report/:id" element={<CompanyReport />} />
             <Route path="/report/center/:id" element={<CenterReport />} />
+            <Route path="/report/company/:id" element={<CenterCompany />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>

@@ -103,6 +103,19 @@ function CenterReport() {
                 있는 정보를 제공합니다. 각 사업화 단계별 해당하는 기업의 수와
                 준비역량 수를 함께 보여드립니다.
               </Desc>
+              <Diagnosis>
+                <img src="/image/frame_large.png" alt="" />
+              </Diagnosis>
+              <CompanyDiagList>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </CompanyDiagList>
             </Body>
             <Footer>
               <div>
@@ -166,6 +179,7 @@ const Desc = styled("div")`
   color: #616161;
   padding-left: 20px;
   padding-right: 20px;
+  margin-bottom: 6px;
 `;
 
 const OutlineTable = styled("div")`
@@ -220,6 +234,43 @@ const TableDesc = styled("div")`
   line-height: 18px;
   letter-spacing: -0.0025em;
   color: #616161;
+`;
+
+const Diagnosis = styled("div")`
+  width: 492px;
+  height: 370px;
+  padding-left: 20px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: crisp-edges;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+`;
+
+const CompanyDiagList = styled("div")`
+  width: 492px;
+  height: 42px;
+  padding-left: 20px;
+  display: flex;
+  position: relative;
+  top: -2px;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+    border-right: 1px dashed #888888;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
 `;
 
 const PDFButton = styled("button")`
