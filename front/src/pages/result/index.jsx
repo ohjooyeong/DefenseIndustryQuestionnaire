@@ -66,7 +66,7 @@ function Result() {
           result,
           question,
         };
-        const { data } = await axios.post(`/api/v1/question/report`, context);
+        const { data } = await axios.post(`/api/v1/report`, context);
         if (data.status === 200) {
           localStorage["report"] = JSON.stringify({
             id: data.data.id,

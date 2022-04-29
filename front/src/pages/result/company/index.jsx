@@ -13,10 +13,10 @@ function Company() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const result = JSON.parse(localStorage["result"]);
-    if (!result) {
+    if (!localStorage.getItem("result")) {
       return navigate("../");
     }
+    const result = JSON.parse(localStorage["result"]);
 
     (async () => {
       try {
@@ -24,7 +24,11 @@ function Company() {
           params: { level: result.level, company: result.company },
         });
 
-        setData(data.data);
+        if (data.status === 200) {
+          setData(data.data);
+        } else {
+          alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요");
+        }
       } catch (error) {
         console.dir(error);
       } finally {
@@ -32,12 +36,23 @@ function Company() {
     })();
   }, []);
 
+  // 기업 보고서 결과보기
   const handleClickPopup = useCallback(() => {
     const report = JSON.parse(localStorage["report"]);
     const result = JSON.parse(localStorage["result"]);
     window.open(
       `/report/${report.id}`,
       `${result.company} - 보고서`,
+      "width=800,height=700,location=no,status=no,scrollbars=yes"
+    );
+  }, []);
+
+  // 센터 보고서 결과보기
+  const handleClickCenterPopup = useCallback(() => {
+    const result = JSON.parse(localStorage["result"]);
+    window.open(
+      `/report/center/${result.company.center_id}`,
+      `센터 - 보고서`,
       "width=800,height=700,location=no,status=no,scrollbars=yes"
     );
   }, []);
@@ -49,7 +64,14 @@ function Company() {
           <>
             <LevelResult data={Data}></LevelResult>
             <ProblemResult data={Data}></ProblemResult>
-            <ReportButton onClick={handleClickPopup}>결과보기</ReportButton>
+            <ButtonWrap>
+              <ReportButton onClick={handleClickPopup}>
+                결과보기(기업용)
+              </ReportButton>
+              <ReportButton onClick={handleClickCenterPopup}>
+                결과보기(센터용)
+              </ReportButton>
+            </ButtonWrap>
           </>
         )}
       </div>
@@ -58,6 +80,13 @@ function Company() {
 }
 
 export default Company;
+
+const ButtonWrap = styled("div")`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const ReportButton = styled("button")`
   width: 380px;

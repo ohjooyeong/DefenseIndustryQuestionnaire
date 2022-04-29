@@ -1,36 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import styles from "./company.module.css";
 import ReportTop from "../../../../components/ReportTop";
 import SupportBusiness from "../../../../components/SupportBusiness";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import CompanyTable from "../../../../components/companyTable";
+import { getFormattedDate } from "../../../../utils/dateFormat";
+import html2pdf from "html2pdf.js";
 
 function CenterCompany() {
   const [Data, setData] = useState(null);
+  const { id } = useParams();
 
   const printRef = React.useRef();
 
-  const navigate = useNavigate();
+  const getPDF = () => {
+    let element = printRef.current;
+    let opt = {
+      margin: [8, 0, 8, 0],
+      filename: `${Data.company.name}-${getFormattedDate(
+        new Date(Data.createdAt),
+        "yyyy-MM-dd"
+      )}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, width: 598 },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
 
   useEffect(() => {
-    if (!localStorage.getItem("result") || !localStorage.getItem("report")) {
-      return navigate("../");
-    }
-    const result = JSON.parse(localStorage["result"]);
-    const report = JSON.parse(localStorage["report"]);
-
     (async () => {
       try {
-        const { data } = await axios.get(`/api/v1/question/report`, {
-          params: { id: report.id },
-        });
+        const { data } = await axios.get(`/api/v1/report/center/${id}`);
 
-        setData(data.data);
+        if (data.status === 200) {
+          setData(data.data);
+        } else {
+          alert("발급한 보고서가 없거나, 잘못된 요청입니다.");
+        }
       } catch (error) {
         console.dir(error);
+        alert("발급한 보고서가 없거나, 잘못된 요청입니다.");
       } finally {
       }
     })();
@@ -39,49 +55,57 @@ function CenterCompany() {
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <div className={styles.wrapper}>
-          <>
-            <ReportTop purpose={"센터용"} color="red"></ReportTop>
-            <Body>
-              <Title>협약기업 분석 및 해결방안</Title>
-              <Desc>
-                기업 진단질문 결과의 점수를 종합하여 기업의 현재 사업화 단계를
-                확인하고, 그에 따른 문제점과 해결방안을 제공합니다.
-              </Desc>
-              <TableWrap>
-                <CompanyTable />
-              </TableWrap>
-              <DiffContainer>
-                <DiffWrap>
-                  <DiffTitle>애로사항</DiffTitle>
-                  <ProblemList>
-                    <li>1. 국방시장의 이해</li>
-                    <li>2. 국방시장의 이해</li>
-                    <li>3. 국방시장의 이해</li>
-                    <li>4. 국방시장의 이해</li>
-                    <li>5. 국방시장의 이해</li>
-                  </ProblemList>
-                </DiffWrap>
-                <DiffWrap>
-                  <DiffTitle>해결방안</DiffTitle>
-                  <ProblemList>
-                    <li>1. 국방시장의 이해</li>
-                    <li>2. 국방시장의 이해</li>
-                    <li>3. 국방시장의 이해</li>
-                    <li>4. 국방시장의 이해</li>
-                    <li>5. 국방시장의 이해</li>
-                  </ProblemList>
-                </DiffWrap>
-              </DiffContainer>
-              {Data && (
+        <div className={styles.wrapper} ref={printRef}>
+          {Data && (
+            <>
+              <ReportTop purpose={"센터용"} color="red"></ReportTop>
+              <Body>
+                <Title>협약기업 분석 및 해결방안</Title>
+                <Desc>
+                  기업 진단질문 결과의 점수를 종합하여 기업의 현재 사업화 단계를
+                  확인하고, 그에 따른 문제점과 해결방안을 제공합니다.
+                </Desc>
+                <TableWrap>
+                  <CompanyTable data={Data.company} />
+                </TableWrap>
+                <DiffContainer>
+                  <DiffWrap>
+                    <DiffTitle>애로사항</DiffTitle>
+                    <ProblemList>
+                      {Data.result.problem.map((p, i) => (
+                        <li key={p + i}>
+                          {i + 1}. {p}
+                        </li>
+                      ))}
+                    </ProblemList>
+                  </DiffWrap>
+                  <DiffWrap>
+                    <DiffTitle>해결방안</DiffTitle>
+                    <ProblemList>
+                      <li>1. 해결방안</li>
+                      <li>2. 인력교육/양성</li>
+                      <li>3. 기술R&D 지원</li>
+                      <li>4. 경영활동 지원</li>
+                      <li>5. 시장연계 지원</li>
+                    </ProblemList>
+                  </DiffWrap>
+                </DiffContainer>
+
                 <SupportBusiness
                   solution={Data.solution}
                   support={Data.support}
                 ></SupportBusiness>
-              )}
-            </Body>
-          </>
+              </Body>
+              <Footer>
+                <div>
+                  {getFormattedDate(new Date(Data.createdAt), "yyyy-MM-dd")}
+                </div>
+                <div></div>
+              </Footer>
+            </>
+          )}
         </div>
+        <PDFButton onClick={getPDF}>PDF 다운로드</PDFButton>
       </div>
     </div>
   );
@@ -149,6 +173,7 @@ const DiffWrap = styled("div")`
   display: flex;
   width: 50%;
   flex-direction: column;
+  padding-right: 5px;
 `;
 
 const DiffTitle = styled("h3")`

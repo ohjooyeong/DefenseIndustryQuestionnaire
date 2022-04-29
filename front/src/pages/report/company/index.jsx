@@ -7,8 +7,7 @@ import ReportTop from "../../../components/ReportTop";
 import SupportBusiness from "../../../components/SupportBusiness";
 import { getFormattedDate } from "../../../utils/dateFormat";
 import styles from "./company.module.css";
-import html2canvas from "html2canvas";
-import JsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
 
 function CompanyReport() {
   const [Data, setData] = useState(null);
@@ -16,51 +15,41 @@ function CompanyReport() {
   const navigate = useNavigate();
   const printRef = React.useRef();
 
-  const handleDownloadPdf = async () => {
-    window.scrollTo(0, 0);
-    const element = printRef.current;
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
+  const getPDF = () => {
+    let element = printRef.current;
+    let opt = {
+      margin: [8, 0, 8, 0],
 
-    const imgWidth = 190;
-    const pageHeight = 290;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
-    const doc = new JsPDF("pt", "mm");
-    let position = 0;
-    doc.addImage(imgData, "PNG", 10, 0, imgWidth, imgHeight + 10);
-    heightLeft -= pageHeight;
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      doc.addPage();
-      doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight + 10);
-      heightLeft -= pageHeight;
-    }
-    doc.save(
-      `${Data.company?.name}-${getFormattedDate(
+      filename: `${Data.company.name}-${getFormattedDate(
         new Date(Data.createdAt),
         "yyyy-MM-dd"
-      )}.pdf`
-    );
+      )}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, width: 598 },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
   };
 
   useEffect(() => {
-    const result = JSON.parse(localStorage["result"]);
-    const report = JSON.parse(localStorage["report"]);
-    if (!result || !report) {
+    if (!localStorage.getItem("result")) {
       return navigate("../");
     }
+    const report = JSON.parse(localStorage["report"]);
 
     (async () => {
       try {
-        const { data } = await axios.get(`/api/v1/question/report`, {
+        const { data } = await axios.get(`/api/v1/report`, {
           params: { id: report.id },
         });
 
         setData(data.data);
       } catch (error) {
         console.dir(error);
-      } finally {
       }
     })();
   }, []);
@@ -120,7 +109,7 @@ function CompanyReport() {
             </>
           )}
         </div>
-        <PDFButton onClick={handleDownloadPdf}>PDF 다운로드</PDFButton>
+        <PDFButton onClick={getPDF}>PDF 다운로드</PDFButton>
       </div>
     </div>
   );

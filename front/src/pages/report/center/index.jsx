@@ -3,11 +3,15 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { getFormattedDate } from "../../../utils/dateFormat";
+import html2pdf from "html2pdf.js";
+
+import {
+  getFormattedDate,
+  ReportFormattedDate,
+} from "../../../utils/dateFormat";
 import styles from "./company.module.css";
 import ReportTop from "../../../components/ReportTop";
+import CompanyDiag from "../../../components/CompanyDiag";
 
 function CenterReport() {
   const [Data, setData] = useState(null);
@@ -15,117 +19,98 @@ function CenterReport() {
   const navigate = useNavigate();
   const printRef = React.useRef();
 
-  const handleDownloadPdf = async () => {
-    window.scrollTo(0, 0);
-    const element = printRef.current;
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/jpeg");
-    const renderImg = [];
+  const getPDF = () => {
+    let element = printRef.current;
+    let opt = {
+      margin: [8, 0, 8, 0],
 
-    const pageWidth = 200;
-    const padding = 5;
-    const pageHeight = pageWidth * 1.414;
-    const imgWidth = pageWidth - 20;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    let heightLeft = imgHeight;
-    const doc = new jsPDF("pt", "mm", [pageWidth, pageHeight]);
-    let position = 0;
-
-    doc.addImage(imgData, "jpeg", 10, padding, imgWidth, imgHeight);
-
-    heightLeft -= pageHeight;
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      console.log(position, imgWidth, imgHeight + 10);
-      doc.addPage();
-      doc.addImage(imgData, "jpeg", 10, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-    doc.save(
-      `${Data.company?.name}-${getFormattedDate(
+      filename: `${Data.company.name}-${getFormattedDate(
         new Date(Data.createdAt),
         "yyyy-MM-dd"
-      )}.pdf`
-    );
+      )}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, width: 598 },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
   };
 
-  // useEffect(() => {
-  //   const result = JSON.parse(localStorage["result"]);
-  //   const report = JSON.parse(localStorage["report"]);
-  //   if (!result || !report) {
-  //     return navigate("../");
-  //   }
+  useEffect(() => {
+    if (!localStorage.getItem("result")) {
+      return navigate("../");
+    }
+    const result = JSON.parse(localStorage["result"]);
 
-  //   (async () => {
-  //     try {
-  //       const { data } = await axios.get(`/api/v1/question/report`, {
-  //         params: { id: report.id },
-  //       });
+    (async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/report/center`, {
+          params: { id: result.company.center_id },
+        });
 
-  //       setData(data.data);
-  //     } catch (error) {
-  //       console.dir(error);
-  //     } finally {
-  //     }
-  //   })();
-  // }, []);
+        setData(data.data);
+      } catch (error) {
+        console.dir(error);
+      } finally {
+      }
+    })();
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.section}>
         <div className={styles.wrapper} ref={printRef}>
-          <>
-            <ReportTop purpose={"센터용"} color="red"></ReportTop>
-            <Body>
-              <Title>진단 개요</Title>
-              <OutlineTable>
-                <TableCol>
-                  <TableTitle>사 업 명</TableTitle>
-                  <TableDesc>국방벤처 혁신기술 지원사업</TableDesc>
-                </TableCol>
-                <TableCol>
-                  <TableTitle>진 단 기 관</TableTitle>
-                  <TableDesc>부산국방벤처센터</TableDesc>
-                </TableCol>
-                <TableCol>
-                  <TableTitle>진 단 기 업 수</TableTitle>
-                  <TableDesc>40개 기업 (100% / 총 40개 기업 중)</TableDesc>
-                </TableCol>
-                <TableCol>
-                  <TableTitle>진 단 일 정</TableTitle>
-                  <TableDesc>2022. 01. 03 ~ 01. 15</TableDesc>
-                </TableCol>
-              </OutlineTable>
-              <Title>사업화 단계 일반 분포</Title>
-              <Desc>
-                국방벤처 로드맵 상에 각 기업의 현재 사업화 단계를 표현하고
-                준비역량 단계를 종합하여 전체 기업의 현황을 효과적으로 확인할 수
-                있는 정보를 제공합니다. 각 사업화 단계별 해당하는 기업의 수와
-                준비역량 수를 함께 보여드립니다.
-              </Desc>
-              <Diagnosis>
-                <img src="/image/frame_large.png" alt="" />
-              </Diagnosis>
-              <CompanyDiagList>
+          {Data && (
+            <>
+              <ReportTop purpose={"센터용"} color="red"></ReportTop>
+              <Body>
+                <Title>진단 개요</Title>
+                <OutlineTable>
+                  <TableCol>
+                    <TableTitle>사 업 명</TableTitle>
+                    <TableDesc>국방벤처 혁신기술 지원사업</TableDesc>
+                  </TableCol>
+                  <TableCol>
+                    <TableTitle>진 단 기 관</TableTitle>
+                    <TableDesc>{Data.name}</TableDesc>
+                  </TableCol>
+                  <TableCol>
+                    <TableTitle>진 단 기 업 수</TableTitle>
+                    <TableDesc>
+                      {Data.company_length}개 기업 (0% / 총{" "}
+                      {Data.company_length}개 기업 중)
+                    </TableDesc>
+                  </TableCol>
+                  <TableCol>
+                    <TableTitle>진 단 일 정</TableTitle>
+                    <TableDesc>{`${ReportFormattedDate(
+                      new Date(Data.createdAt)
+                    )} ~ ${ReportFormattedDate()}`}</TableDesc>
+                  </TableCol>
+                </OutlineTable>
+                <Title>사업화 단계 일반 분포</Title>
+                <Desc>
+                  국방벤처 로드맵 상에 각 기업의 현재 사업화 단계를 표현하고
+                  준비역량 단계를 종합하여 전체 기업의 현황을 효과적으로 확인할
+                  수 있는 정보를 제공합니다. 각 사업화 단계별 해당하는 기업의
+                  수와 준비역량 수를 함께 보여드립니다.
+                </Desc>
+                <Diagnosis>
+                  <img src="/image/frame_large.png" alt="" />
+                </Diagnosis>
+                <CompanyDiag data={Data.company_list}></CompanyDiag>
+              </Body>
+              <Footer>
+                <div>{getFormattedDate(new Date(), "yyyy-MM-dd")}</div>
                 <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </CompanyDiagList>
-            </Body>
-            <Footer>
-              <div>
-                {/* {getFormattedDate(new Date(Data.createdAt), "yyyy-MM-dd")} */}
-              </div>
-              <div></div>
-            </Footer>
-          </>
+              </Footer>
+            </>
+          )}
         </div>
-        {/* <PDFButton onClick={handleDownloadPdf}>PDF 다운로드</PDFButton> */}
+        <PDFButton onClick={getPDF}>PDF 다운로드</PDFButton>
       </div>
     </div>
   );
@@ -266,10 +251,45 @@ const CompanyDiagList = styled("div")`
     width: 100%;
     height: 100%;
     border-right: 1px dashed #888888;
+    position: relative;
 
     &:last-child {
       border-right: none;
     }
+  }
+`;
+
+const Node = styled("div")`
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  position: relative;
+  top: -5px;
+  left: -5px;
+  background-color: #ec5b54;
+`;
+
+const NodeCompany = styled("div")`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+
+  ${(props) =>
+    props.widthRatio >= 0 &&
+    props.heightRatio >= 0 &&
+    css`
+      top: ${props.heightRatio}%;
+      left: ${props.widthRatio}%;
+    `}
+  span {
+    font-size: 10px;
+    line-height: 12px;
+    transform: scale(0.5);
+    position: relative;
+    top: -5px;
+    left: -5px;
   }
 `;
 
