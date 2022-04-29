@@ -10,9 +10,6 @@ const institutionSchema = mongoose.Schema(
     city: {
       type: String,
     },
-    company: {
-      type: [{ type: schema.Types.ObjectId, ref: "Company" }],
-    },
   },
   { timestamps: true }
 );

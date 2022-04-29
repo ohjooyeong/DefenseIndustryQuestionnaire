@@ -8,7 +8,7 @@ const companySchema = mongoose.Schema(
       type: String,
     },
     phone: {
-      type: Number,
+      type: String,
     },
     charge_person: {
       type: String,
@@ -55,6 +55,9 @@ const companySchema = mongoose.Schema(
     },
     defense_category: {
       type: String,
+    },
+    recent_score: {
+      type: Number,
     },
   },
   { timestamps: true }

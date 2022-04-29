@@ -1,23 +1,23 @@
 export const divideLevel = (score) => {
-  if (score <= 3) {
+  if (score < 3) {
     return 1;
   }
-  if (score <= 6) {
+  if (score < 6) {
     return 2;
   }
-  if (score <= 10) {
+  if (score < 10) {
     return 3;
   }
-  if (score <= 16) {
+  if (score < 16) {
     return 4;
   }
-  if (score <= 30) {
+  if (score < 30) {
     return 5;
   }
-  if (score <= 40) {
+  if (score < 40) {
     return 6;
   }
-  if (score <= 50) {
+  if (score < 50) {
     return 7;
   }
   return 8;
