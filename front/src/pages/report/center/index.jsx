@@ -24,7 +24,7 @@ function CenterReport() {
     let opt = {
       margin: [8, 0, 8, 0],
 
-      filename: `${Data.company.name}-${getFormattedDate(
+      filename: `${Data.name}-${getFormattedDate(
         new Date(Data.createdAt),
         "yyyy-MM-dd"
       )}.pdf`,
@@ -80,7 +80,7 @@ function CenterReport() {
                   <TableCol>
                     <TableTitle>진 단 기 업 수</TableTitle>
                     <TableDesc>
-                      {Data.company_length}개 기업 (0% / 총{" "}
+                      {Data.company_length}개 기업 (100% / 총{" "}
                       {Data.company_length}개 기업 중)
                     </TableDesc>
                   </TableCol>

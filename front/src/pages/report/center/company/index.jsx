@@ -40,6 +40,7 @@ function CenterCompany() {
         const { data } = await axios.get(`/api/v1/report/center/${id}`);
 
         if (data.status === 200) {
+          console.log(data.data);
           setData(data.data);
         } else {
           alert("발급한 보고서가 없거나, 잘못된 요청입니다.");
@@ -66,13 +67,13 @@ function CenterCompany() {
                   확인하고, 그에 따른 문제점과 해결방안을 제공합니다.
                 </Desc>
                 <TableWrap>
-                  <CompanyTable data={Data.company} />
+                  <CompanyTable data={Data.report.company} />
                 </TableWrap>
                 <DiffContainer>
                   <DiffWrap>
                     <DiffTitle>애로사항</DiffTitle>
                     <ProblemList>
-                      {Data.result.problem.map((p, i) => (
+                      {Data.report.result.problem.map((p, i) => (
                         <li key={p + i}>
                           {i + 1}. {p}
                         </li>
@@ -81,25 +82,24 @@ function CenterCompany() {
                   </DiffWrap>
                   <DiffWrap>
                     <DiffTitle>해결방안</DiffTitle>
-                    <ProblemList>
-                      <li>1. 해결방안</li>
-                      <li>2. 인력교육/양성</li>
-                      <li>3. 기술R&D 지원</li>
-                      <li>4. 경영활동 지원</li>
-                      <li>5. 시장연계 지원</li>
-                    </ProblemList>
+                    <SolutionList>
+                      <pre>
+                        {Data.center_solution.desc.replaceAll(
+                          "\t",
+                          "\u00A0\u00A0"
+                        )}
+                      </pre>
+                    </SolutionList>
                   </DiffWrap>
                 </DiffContainer>
 
                 <SupportBusiness
-                  solution={Data.solution}
-                  support={Data.support}
+                  solution={Data.report.solution}
+                  support={Data.report.support}
                 ></SupportBusiness>
               </Body>
               <Footer>
-                <div>
-                  {getFormattedDate(new Date(Data.createdAt), "yyyy-MM-dd")}
-                </div>
+                <div>{getFormattedDate(new Date(), "yyyy-MM-dd")}</div>
                 <div></div>
               </Footer>
             </>
@@ -206,6 +206,26 @@ const ProblemList = styled("ul")`
 
   li:last-child {
     margin-bottom: 0px;
+  }
+`;
+
+const SolutionList = styled("ul")`
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+  width: 225px;
+
+  letter-spacing: -0.0025em;
+
+  color: #616161;
+
+  pre {
+    margin-left: 1px;
+    margin-bottom: 3px;
+    white-space: pre-line;
   }
 `;
 

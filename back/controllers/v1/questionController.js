@@ -48,21 +48,21 @@ import { center_solution } from "../../mockDB/center_solution.js";
 //   });
 // };
 
-const createCenterSolutionDB = (data) => {
-  data.map(async (d) => {
-    const CenterSolutionModel = await db.CenterSolution.findOneAndUpdate(
-      {
-        desc: d.name,
-      },
-      d,
-      {
-        new: true,
-        upsert: true,
-      }
-    );
-    return CenterSolutionModel;
-  });
-};
+// const createCenterSolutionDB = (data) => {
+//   data.map(async (d) => {
+//     const CenterSolutionModel = await db.CenterSolution.findOneAndUpdate(
+//       {
+//         desc: d.name,
+//       },
+//       d,
+//       {
+//         new: true,
+//         upsert: true,
+//       }
+//     );
+//     return CenterSolutionModel;
+//   });
+// };
 
 // const createResultDB = (data) => {
 //   data.map(async (d) => {
@@ -80,7 +80,7 @@ const createCenterSolutionDB = (data) => {
 //   });
 // };
 
-createCenterSolutionDB(center_solution);
+// createCenterSolutionDB(center_solution);
 
 export const postResultController = async (req, res, next) => {
   try {
