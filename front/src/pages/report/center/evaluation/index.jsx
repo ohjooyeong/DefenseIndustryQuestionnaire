@@ -63,9 +63,21 @@ function EvaluationReport() {
           params: { id: result.company.center_id },
         });
 
-        setData(data.data);
+        if (data.status === 200) {
+          setData(data.data);
+        } else {
+          alert("발급한 보고서가 없거나, 잘못된 요청입니다. 잠시 후 꺼집니다.");
+          setTimeout(() => {
+            window.open("", "_self").close();
+          }, 3000);
+        }
       } catch (error) {
+        alert("발급한 보고서가 없거나, 잘못된 요청입니다. 잠시 후 꺼집니다.");
+
         console.dir(error);
+        setTimeout(() => {
+          window.open("", "_self").close();
+        }, 3000);
       } finally {
       }
     })();

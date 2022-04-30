@@ -87,6 +87,14 @@ export const getReportController = async (req, res, next) => {
       .populate("result")
       .exec();
 
+    if (!data) {
+      return res.status(200).json({
+        status: 400,
+        error: `잘못된 보고서 ID입니다.`,
+        data: null,
+      });
+    }
+
     return res.status(200).json({
       status: 200,
       error: null,
@@ -108,7 +116,21 @@ export const getCenterReportController = async (req, res, next) => {
       query: { id },
     } = req;
     const center = await db.Institution.findOne({ _id: id });
+    if (!center) {
+      return res.status(200).json({
+        status: 400,
+        error: `잘못된 센터 ID입니다.`,
+        data: null,
+      });
+    }
     const companies = await db.Company.find({ institution: center._id });
+    if (companies.length < 0) {
+      return res.status(200).json({
+        status: 400,
+        error: `잘못된 요청입니다`,
+        data: null,
+      });
+    }
 
     const context = {
       name: center.name,
@@ -143,6 +165,14 @@ export const getCenterInComapnyReportController = async (req, res, next) => {
       .populate("result")
       .exec();
 
+    if (!report) {
+      return res.status(200).json({
+        status: 400,
+        error: `잘못된 보고서 ID입니다.`,
+        data: null,
+      });
+    }
+
     const center_solution = await db.CenterSolution.findOne({
       level: report.company.level,
     });
@@ -151,8 +181,6 @@ export const getCenterInComapnyReportController = async (req, res, next) => {
       report,
       center_solution,
     };
-
-    console.log(context);
 
     return res.status(200).json({
       status: 200,

@@ -31,7 +31,6 @@ function Company() {
         }
       } catch (error) {
         console.dir(error);
-      } finally {
       }
     })();
   }, []);

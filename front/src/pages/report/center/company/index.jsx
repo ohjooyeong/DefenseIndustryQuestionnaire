@@ -40,14 +40,20 @@ function CenterCompany() {
         const { data } = await axios.get(`/api/v1/report/center/${id}`);
 
         if (data.status === 200) {
-          console.log(data.data);
           setData(data.data);
         } else {
-          alert("발급한 보고서가 없거나, 잘못된 요청입니다.");
+          alert("발급한 보고서가 없거나, 잘못된 요청입니다. 잠시 후 꺼집니다.");
+          setTimeout(() => {
+            window.open("", "_self").close();
+          }, 3000);
         }
       } catch (error) {
+        alert("발급한 보고서가 없거나, 잘못된 요청입니다. 잠시 후 꺼집니다.");
+
         console.dir(error);
-        alert("발급한 보고서가 없거나, 잘못된 요청입니다.");
+        setTimeout(() => {
+          window.open("", "_self").close();
+        }, 3000);
       } finally {
       }
     })();
