@@ -12,6 +12,7 @@ import {
   divideLevel,
   stringToNumber,
 } from "../../utils/dataUtils.js";
+import { center_solution } from "../../mockDB/center_solution.js";
 
 // DB Create
 
@@ -47,6 +48,22 @@ import {
 //   });
 // };
 
+const createCenterSolutionDB = (data) => {
+  data.map(async (d) => {
+    const CenterSolutionModel = await db.CenterSolution.findOneAndUpdate(
+      {
+        desc: d.name,
+      },
+      d,
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+    return CenterSolutionModel;
+  });
+};
+
 // const createResultDB = (data) => {
 //   data.map(async (d) => {
 //     const SupportModel = await db.Result.findOneAndUpdate(
@@ -62,6 +79,8 @@ import {
 //     return SupportModel;
 //   });
 // };
+
+createCenterSolutionDB(center_solution);
 
 export const postResultController = async (req, res, next) => {
   try {

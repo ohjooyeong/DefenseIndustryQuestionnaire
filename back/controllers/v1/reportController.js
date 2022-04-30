@@ -138,15 +138,26 @@ export const getCenterInComapnyReportController = async (req, res, next) => {
       params: { companyId },
     } = req;
 
-    const data = await db.Report.findOne({ company: companyId })
+    const report = await db.Report.findOne({ company: companyId })
       .populate("company")
       .populate("result")
       .exec();
 
+    const center_solution = await db.CenterSolution.findOne({
+      level: report.company.level,
+    });
+
+    const context = {
+      report,
+      center_solution,
+    };
+
+    console.log(context);
+
     return res.status(200).json({
       status: 200,
       error: null,
-      data,
+      data: context,
     });
   } catch (error) {
     return res.status(200).json({

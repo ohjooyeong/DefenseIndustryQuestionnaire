@@ -7,6 +7,7 @@ import Report from "./report.js";
 import Result from "./result.js";
 import Solution from "./solution.js";
 import Support from "./support.js";
+import CenterSolution from "./centerSolution.js";
 
 const db = {
   Category,
@@ -18,6 +19,7 @@ const db = {
   Result,
   Solution,
   Support,
+  CenterSolution,
 };
 
 export default db;
