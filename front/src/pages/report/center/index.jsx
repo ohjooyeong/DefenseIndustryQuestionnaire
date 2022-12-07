@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 
 import {
@@ -17,6 +17,7 @@ function CenterReport() {
   const [Data, setData] = useState(null);
 
   const navigate = useNavigate();
+  const { id: centerId } = useParams();
   const printRef = React.useRef();
 
   const getPDF = () => {
@@ -25,7 +26,7 @@ function CenterReport() {
       margin: [8, 0, 8, 0],
 
       filename: `${Data.name}-${getFormattedDate(
-        new Date(Data.createdAt),
+        new Date(),
         "yyyy-MM-dd"
       )}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
@@ -40,15 +41,17 @@ function CenterReport() {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("result")) {
-      return navigate("../");
+    // if (!localStorage.getItem("result")) {
+    //   return navigate("../");
+    // }
+    if (localStorage["report"]) {
+      const report = JSON.parse(localStorage["report"]);
     }
-    const result = JSON.parse(localStorage["result"]);
 
     (async () => {
       try {
         const { data } = await axios.get(`/api/v1/report/center`, {
-          params: { id: result.company.center_id },
+          params: { id: centerId },
         });
 
         if (data.status === 200) {

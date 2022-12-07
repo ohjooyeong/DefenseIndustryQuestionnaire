@@ -17,10 +17,11 @@ function CenterCompany() {
 
   const getPDF = () => {
     let element = printRef.current;
+
     let opt = {
       margin: [8, 0, 8, 0],
-      filename: `${Data.company.name}-${getFormattedDate(
-        new Date(Data.createdAt),
+      filename: `${Data.report.company.name}-${getFormattedDate(
+        new Date(Data.report.createdAt),
         "yyyy-MM-dd"
       )}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
@@ -105,7 +106,12 @@ function CenterCompany() {
                 ></SupportBusiness>
               </Body>
               <Footer>
-                <div>{getFormattedDate(new Date(), "yyyy-MM-dd")}</div>
+                <div>
+                  {getFormattedDate(
+                    new Date(Data.report.createdAt),
+                    "yyyy-MM-dd"
+                  )}
+                </div>
                 <div></div>
               </Footer>
             </>

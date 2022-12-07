@@ -13,8 +13,6 @@ const nodePosition = (level, comp_score) => {
   const tmp_score = score[level] - score[level - 1];
   const recent_score = comp_score - score[level - 1];
 
-  console.log(Math.floor((tmp_score / recent_score) * 10));
-
   return Math.floor((tmp_score / recent_score) * 10);
 };
 
@@ -36,6 +34,7 @@ function CompanyDiag({ data }) {
       const companies = data.map((company) => {
         if (i === company.level) {
           const heightRatio = Math.floor(Math.random() * 100);
+
           return (
             <NodeCompany
               widthRatio={nodePosition(company.level, company.recent_score)}

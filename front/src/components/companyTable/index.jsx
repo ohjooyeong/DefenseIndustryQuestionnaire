@@ -1,5 +1,4 @@
 import React from "react";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import {
   careerFormattedDate,
@@ -13,7 +12,8 @@ const typeConfirm = (arr) => {
 
 const viewKorean = (num) => {
   let result = "";
-  let number = String(num);
+  let number = Array.from(String(num)).reverse();
+
   for (let i = 0; i < number.length; i++) {
     let num_string = "";
     num_string += number[i];
@@ -32,9 +32,11 @@ const viewKorean = (num) => {
     }
     result = num_string + result;
   }
+
   if (num !== 0) {
     result = result + "원";
   }
+
   return result;
 };
 

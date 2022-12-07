@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReportTop from "../../../components/ReportTop";
 import SupportBusiness from "../../../components/SupportBusiness";
 import { getFormattedDate } from "../../../utils/dateFormat";
@@ -13,6 +13,7 @@ function CompanyReport() {
   const [Data, setData] = useState(null);
 
   const navigate = useNavigate();
+  const { id: reportId } = useParams();
   const printRef = React.useRef();
 
   const getPDF = () => {
@@ -36,15 +37,17 @@ function CompanyReport() {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("result")) {
-      return navigate("../");
+    // if (!localStorage.getItem("result")) {
+    //   return navigate("../");
+    // }
+    if (localStorage["report"]) {
+      const report = JSON.parse(localStorage["report"]);
     }
-    const report = JSON.parse(localStorage["report"]);
 
     (async () => {
       try {
         const { data } = await axios.get(`/api/v1/report`, {
-          params: { id: report.id },
+          params: { id: reportId },
         });
 
         if (data.status === 200) {
