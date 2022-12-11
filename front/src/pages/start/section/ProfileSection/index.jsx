@@ -37,11 +37,13 @@ function ProfileSection() {
   };
 
   const onChangeOrgName = useCallback((e) => {
-    setOrgName(e.target.value);
+    const value = e.target.value;
+    setOrgName(value.trim());
   }, []);
 
   const onChangeName = useCallback((e) => {
-    setName(e.target.value);
+    const value = e.target.value;
+    setName(value.trim());
   }, []);
 
   const onChangePhoneNum = useCallback((e) => {

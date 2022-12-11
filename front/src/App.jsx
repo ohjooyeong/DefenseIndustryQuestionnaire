@@ -11,6 +11,7 @@ import axios from "axios";
 import CompanyReport from "./pages/report/company";
 import CenterReport from "./pages/report/center";
 import CenterCompany from "./pages/report/center/company";
+import CompanyList from "./pages/companylist";
 import EvaluationReport from "./pages/report/center/evaluation";
 
 axios.defaults.baseURL = "http://localhost:5000";
@@ -47,6 +48,7 @@ function App() {
               path="/report/center/company/:id"
               element={<CenterCompany />}
             />
+            <Route path="/company" element={<CompanyList />} />
           </Routes>
         </ThemeProvider>
       </RecoilRoot>
