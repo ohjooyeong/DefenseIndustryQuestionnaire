@@ -9,6 +9,7 @@ import cors from "cors";
 import express, { json, urlencoded } from "express";
 import questionRouter from "./routers/v1/questionRouter/index.js";
 import reportRouter from "./routers/v1/reportRouter/index.js";
+import listRouter from "./routers/v1/listRouter/index.js";
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(morgan("dev"));
 
 app.use("/api/v1", questionRouter);
 app.use("/api/v1", reportRouter);
+app.use("/api/v1", listRouter);
 
 if (process.env.NODE_ENV == "production") {
   console.log("Production Mode");
