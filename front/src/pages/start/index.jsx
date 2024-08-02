@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import ProfileSection from "./section/ProfileSection";
-import StartSection from "./section/StartSection";
+import StartSection from "./section/StartSection/index.alternative";
 
 function Start() {
   const [StartBtn, setStartBtn] = useState(false);

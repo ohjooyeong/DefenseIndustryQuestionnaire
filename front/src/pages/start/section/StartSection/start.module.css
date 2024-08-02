@@ -23,12 +23,12 @@
 .img_section {
   position: absolute;
   right: 0;
-  top: -140px;
+  top: 0;
 }
 
 .img_section img {
-  width: 100%;
-  height: 100%;
+  width: 50vw;
+  height: 100vh;
   object-fit: cover;
 }
 
@@ -78,7 +78,7 @@
   margin-bottom: 16px;
 }
 
-b {
+.desc b {
   font-weight: bold;
   color: #212121;
 }
@@ -91,6 +91,11 @@ b {
   letter-spacing: -0.0025em;
 
   margin-bottom: 40px;
+}
+
+.desc2 b {
+  font-weight: bold;
+  color: #212121;
 }
 
 .button {
